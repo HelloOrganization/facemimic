@@ -57,4 +57,5 @@ docs/_build/
 target/
 
 # Others
-start.sh
+#start.sh
+.avoscloud/
