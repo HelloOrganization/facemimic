@@ -1,15 +1,127 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="zh-cn">
   <head>
-    <title>Welcome to LeanEngine!</title>
-    <link rel="stylesheet" href="/static/style.css" type="text/css">
+    <meta charset="gb2312">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Marvelous Imitator of facial expressions!!</title>
+    <!-- Bootstrap -->
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+	
+	 <script type="text/javascript">
+	 <!--
+		function restoreImg(srcpicid,textid)
+		{
+			
+			// window.alert(srcpicid.src);
+			 textid.value=srcpicid.src;
+		}
+		function myAlert() {
+			window.alert("Hello");     
+	    }
+	 -->
+	 </script>
   </head>
-  <body>
-    <div id="container">
-      <h1>LeanEngine</h1>
-      <p>è¿™æ˜¯ LeanEngine çš„ç¤ºä¾‹åº”ç”¨</p>
-      <p><a href="/time">ä¸€ä¸ªç®€å•çš„åŠ¨æ€è·¯ç”±ç¤ºä¾‹</a></p>
-      <p><a href="/todos">ä¸€ä¸ªç®€å•çš„ã€ŒTODO åˆ—è¡¨ã€ç¤ºä¾‹</a></p>
-    </div>
-  </body>
+  
+  
+  
+  <body style ="background-color: #FFD306">
+	<!-- Ä£Ì¬¿ò£¨Modal£© -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+	   aria-labelledby="myModalLabel" aria-hidden="true">
+	   <div class="modal-dialog">
+		  <div class="modal-content">
+			 <div class="modal-header">
+				<button type="button" class="close" 
+				   data-dismiss="modal" aria-hidden="true">
+					  &times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					»¶Ó­Ê¹ÓÃ±íÇéÄ£·ÂÐã£¡
+				</h4>
+			 </div>
+			 <div class="modal-body">
+				<p>Ïë³ÉÎª±íÇéÄ£·Â´ïÈËÂð£¿°ÚÍÑÆË¿ËÁ³£¬·¢ÏÖ×Ô¼º·á¸»¶à²ÊµÄ±íÇé°É£¡±¾Ó¦ÓÃ»áËæ»ú¸ø³öÒ»¸ö±íÇé£¬ÄúÄ£·ÂµÄÔ½Ïñ£¬¡°Ä£·ÂÖ¸Êý¡±Ô½¸ßÅ¶~</p>
+				<p>²½ÖèÒ»£ºµã»÷×î×óµÄ°´Å¥£¬À´¿´¿´×Ô¼ºÏëÒªÄ£·ÂµÄ±íÇéÊÇÊ²Ã´¡£</p>
+				<p>²½Öè¶þ£º¸Ð¾õ²»ÊÇºÜ¶Ô£¿ÄÇÃ´»»Ò»¸öÀ´Ä£·Â°É£¡</p>
+				<p>²½ÖèÈý£º¼ÇÏÂÕâ¸ö±íÇéµÄ¾«Ëè£¡È»ºóÄ¬Ä¬×¼±¸ºÃ±íÇé£¬Ô½ÏñÔ½´«ÉñÔ½ºÃ~</p>
+				<p>²½ÖèËÄ£ºÅÄÕÕ»òÕßÉÏ´«ÄãµÄÄ£·ÂÐãÕÕÆ¬~À´¿´¿´ÄãµÄ¡°Ä£·ÂÖ¸Êý¡±ÊÇ¶àÉÙ°É~</p>
+				<p>ÏÂÃæÊÇÑùÀýÓ´£º</p>
+				<img id="example" class="img-thumbnail" alt="" src="example.jpg"/>  
+
+			 </div>
+			 <div class="modal-footer">
+				<button type="button" class="btn btn-default" 
+				   data-dismiss="modal">¹Ø±Õ
+				</button>
+			 </div>
+		  </div><!-- /.modal-content -->
+		</div>
+	</div><!-- /.modal -->
+	<nav class="navbar navbar-static-top navbar-inverse">
+        <div class="container">
+				<a href="#"class="navbar-brand navbar-left" data-toggle="modal" data-target="#myModal">¡ú_¡úÔõÃ´ÍæÂï</a>
+			
+		
+		</div>
+    </nav>
+	
+    <!--µ¯³öÄ£Ì¬¿òËµÃ÷Íæ·¨£¬³õÊ¼µÄÍ¼Æ¬Õ¹Ê¾À¸£¬Á½¸ö°´Å¥£º¿´¿´Ä£·ÂÊ²Ã´±íÇé¡¢»»Ò»¸ö¡£ÉÏ´«ÕÕÆ¬£¬Ìá½»-->
+	<div class="container">
+		<div class="row" style="text-align: center">
+			<h1 style="font-family:Palatino Linotype margin: auto">±íÇéÄ£·ÂÐã</h1>
+		</div>
+		</br></br>
+		
+		
+			<button type="button" class="btn btn-info col-xs-6 col-lg-6">ÒªÄ£·ÂÊ²Ã´£¿</button>
+			<button type="button" class="btn btn-info col-xs-6 col-lg-6">DUANG£¡»»Ò»¸ö</button>
+		
+		<div id="localImag2" class=""style="width: 100%">  
+			<img id="preview2" class="img-thumbnail" alt="" src="black.png" onload="javascript:restoreImg(preview2,pic1);" onchange="javascript:restoreImg(preview2,pic1);"/>  
+		</div> 
+		<div class="row">
+		<!-- ÕâÀïÎÒËæ±ãÒ²ÁË¸öÌø×ª£¬±íµ¥´«ÁËÁ½¸öinput£ºÒ»¸öfileÒ»¸ötext¡£-->
+			<form action="show.html" role="form">
+				<div class="form-group" style="text-align: center">
+					<br />
+					<button id="uploadFileId" class="btn btn-default action" onclick=" document.getElementById('pic2').click(); ">
+
+					ÉÏ´«×Ô¼ºµÄÄ£·ÂÕÕÆ¬£¬¾¡Á¿´«ÉñÅ¶
+					</button>
+					<input type="file" class="btn btn-default" accept="image/*" style="visibility: hidden; margin: auto" id="pic2" onchange="" required>
+				</div>
+				<!--
+				<div class="row" style="text-align: center">
+					<button type="submit" style="margin: auto" class="btn-lg btn-danger">¼ÆËãÎÒµÄÄ£·ÂÖ¸Êý(¨s¡ã§¥¡ã)¨s</button>
+				</div>
+				-->
+				<div class="form-group">
+					<label for="subtitle1"class="sr-only">Í¶Æ±µÄÑ¡Ïî1</label>
+						<input type="text" class="form-control sr-only" id="pic1" placeholder="Õâ¸ö±íÏîÊÇ²»¿É¼ûµÄ£¡ÇÒ±£´æÁËÓÃ»§Ä£·ÂµÄÍ¼Æ¬µÄsrc,ÓÃÓÚ½Ó¿Úµ÷ÓÃ¡£Ã¿´ÎÔ´Í¼Æ¬¸üÐÂµÄÊ±ºòÕâ¸ö¿òÄÚµÄÄÚÈÝÒ²»á¸üÐÂ" >
+				</div>
+			</form>
+		</div>
+	</div>
+
+	</br></br></br>
+   <nav class="navbar navbar-fixed-bottom navbar-inverse">
+        <span class="navbar-text"style="font-family:Palatino Linotype">Designed by Qingying Chen, Yiqun Ouyang, Minxing Liu, Yangqingwei Shi, Peking University.</span>
+    </nav>
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+   <!-- ×îÐÂµÄ Bootstrap ºËÐÄ JavaScript ÎÄ¼þ -->
+	<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	
+   </body>
 </html>
+  
