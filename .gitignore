@@ -61,4 +61,5 @@ target/
 .avoscloud/
 .avoscloud/
 
-static/img/upload/
+static/img/upload/*.jpg
+static/img/upload/*.png
