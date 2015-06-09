@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-cn">
   <head>
@@ -30,12 +29,56 @@
 	    }
 	 -->
 	 </script>
+	 <script type="text/javascript">
+<!--		
+            function setImagePreview(docObj,localImagId,imgObjPreview)   
+            {  
+                if(docObj.files && docObj.files[0])  
+                {  
+                    //?????£?ֱ????img????  
+                    imgObjPreview.style.display = 'block';  
+                   // imgObjPreview.style.width = '1366px';  
+                    //imgObjPreview.style.height = '768px';                      
+      
+      
+                    //????7???ϰ汾????????????getAsDataURL()??ʽ??ȡ????Ҫһ?·?ʽ    
+                    imgObjPreview.src = window.URL.createObjectURL(docObj.files[0]);  
+                }  
+                else  
+                {  
+                    //IE?£?ʹ???˾?  
+                    docObj.select();  
+                    var imgSrc = document.selection.createRange().text;  
+                      
+                    //???????ó?ʼ??С  
+                    //localImagId.style.width = "1366px";  
+                    //localImagId.style.height = "768px";  
+                      
+                    //ͼƬ?쳣?Ĳ?׽????ֹ?û??޸ĺ?׺??α??ͼƬ  
+                    try  
+                    {  
+                        localImagId.style.filter="progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";  
+                        localImagId.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = imgSrc;  
+                     }  
+                     catch(e)  
+                     {  
+                        alert("???ϴ???ͼƬ??ʽ????ȷ????????ѡ??!");  
+                        return false;  
+                      }                            
+                      imgObjPreview.style.display = 'none';  
+                      document.selection.empty();  
+                }  
+                return true;  
+            }  
+			-->
+    </script>  
+	 
   </head>
   
   
   
   <body style ="background-color: #FFD306">
-	<!-- 模态框（Modal） -->
+	<!-- ģ̬????Modal?? -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
 	   aria-labelledby="myModalLabel" aria-hidden="true">
 	   <div class="modal-dialog">
@@ -46,7 +89,7 @@
 					  &times;
 				</button>
 				<h4 class="modal-title" id="myModalLabel">
-					欢迎使用表情模仿秀！
+					??ӭʹ?ñ???ģ???㣡
 				</h4>
 			 </div>
 			 <div class="modal-body">
@@ -58,10 +101,11 @@
 				<p>下面是样例哟：</p>
 				<img id="example" class="img-thumbnail" alt="" src="static/img/example.jpg"/>  
 
+
 			 </div>
 			 <div class="modal-footer">
 				<button type="button" class="btn btn-default" 
-				   data-dismiss="modal">关闭
+				   data-dismiss="modal">?ر?
 				</button>
 			 </div>
 		  </div><!-- /.modal-content -->
@@ -69,16 +113,16 @@
 	</div><!-- /.modal -->
 	<nav class="navbar navbar-static-top navbar-inverse">
         <div class="container">
-				<a href="#"class="navbar-brand navbar-left" data-toggle="modal" data-target="#myModal">→_→怎么玩嘛</a>
+				<a href="#"class="navbar-brand navbar-right" data-toggle="modal" data-target="#myModal">??_????ô????</a>
 			
 		
 		</div>
     </nav>
 	
-    <!--弹出模态框说明玩法，初始的图片展示栏，两个按钮：看看模仿什么表情、换一个。上传照片，提交-->
+    <!--????ģ̬??˵???淨????ʼ??ͼƬչʾ??????????ť??????ģ??ʲô???顢??һ?????ϴ???Ƭ???ύ-->
 	<div class="container">
 		<div class="row" style="text-align: center">
-			<h1 style="font-family:Palatino Linotype margin: auto">表情模仿秀</h1>
+			<h1 style="font-family:Palatino Linotype margin: auto">????ģ????</h1>
 		</div>
 		</br></br>
 		
@@ -92,22 +136,26 @@
 		<div class="row">
 		<!-- 这里我随便也了个跳转，表单传了两个input：一个file一个text。-->
 			<form action="show" role="form" method="Post">
+
 				<div class="form-group" style="text-align: center">
 					<br />
-					<button id="uploadFileId" class="btn btn-default action" onclick=" document.getElementById('pic2').click(); ">
+					<button id="uploadFileId" class="btn btn-default " onclick=" document.getElementById('pic2').click(); ">
 
-					上传自己的模仿照片，尽量传神哦
+					?ϴ??Լ???ģ????Ƭ??????????Ŷ
 					</button>
-					<input name="photo" type="file" class="btn btn-default" accept="image/*" style="visibility: hidden; margin: auto" id="pic2" onchange="" required>
+
+					<input name="photo" type="file" class="btn btn-default" accept="image/*" style="visibility: hidden; margin: auto" id="pic2" onchange="javascript:setImagePreview(this,localImag,preview)"; required>
 				</div>
-				<!--
+				 <div class="row" id="localImag" style="text-align: center; background-color: #FFD306">  
+							<img id="preview" alt="" style="background-color: #FFD306" class="img-thumbnail col-md-6 col-md-offset-3"/>  
+					</div> 
 				<div class="row" style="text-align: center">
-					<button type="submit" style="margin: auto" class="btn-lg btn-danger">计算我的模仿指数(╯°Д°)╯</button>
+					<button type="submit" style="margin: auto" class="btn-lg btn-danger">?????ҵ?ģ??ָ??(?s?㧥??)?s</button>
 				</div>
-				-->
+				
 				<div class="form-group">
-					<label for="subtitle1"class="sr-only">投票的选项1</label>
-						<input type="text" class="form-control sr-only" id="pic1" placeholder="这个表项是不可见的！且保存了用户模仿的图片的src,用于接口调用。每次源图片更新的时候这个框内的内容也会更新" >
+					<label for="subtitle1"class="sr-only">ͶƱ??ѡ??1</label>
+						<input type="text" class="form-control sr-only" id="pic1" placeholder="?????????ǲ??ɼ??ģ??ұ??????û?ģ?µ?ͼƬ??src,???ڽӿڵ??á?ÿ??ԴͼƬ???µ?ʱ?????????ڵ?????Ҳ??????" >
 				</div>
 			</form>
 		</div>
@@ -120,7 +168,7 @@
       <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-   <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+   <!-- ???µ? Bootstrap ???? JavaScript ?ļ? -->
 	<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	
    </body>
