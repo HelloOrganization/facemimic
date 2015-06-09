@@ -35,26 +35,26 @@
             {  
                 if(docObj.files && docObj.files[0])  
                 {  
-                    //?????£?ֱ????img????  
+					//火狐下，直接设img属性  
                     imgObjPreview.style.display = 'block';  
                    // imgObjPreview.style.width = '1366px';  
                     //imgObjPreview.style.height = '768px';                      
       
       
-                    //????7???ϰ汾????????????getAsDataURL()??ʽ??ȡ????Ҫһ?·?ʽ    
+                    //火狐7以上版本不能用上面的getAsDataURL()方式获取，需要一下方式    
                     imgObjPreview.src = window.URL.createObjectURL(docObj.files[0]);  
                 }  
                 else  
                 {  
-                    //IE?£?ʹ???˾?  
+                    //IE下，使用滤镜  
                     docObj.select();  
                     var imgSrc = document.selection.createRange().text;  
                       
-                    //???????ó?ʼ??С  
+                    //必须设置初始大小  
                     //localImagId.style.width = "1366px";  
                     //localImagId.style.height = "768px";  
                       
-                    //ͼƬ?쳣?Ĳ?׽????ֹ?û??޸ĺ?׺??α??ͼƬ  
+                    //图片异常的捕捉，防止用户修改后缀来伪造图片  
                     try  
                     {  
                         localImagId.style.filter="progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";  
@@ -62,7 +62,7 @@
                      }  
                      catch(e)  
                      {  
-                        alert("???ϴ???ͼƬ??ʽ????ȷ????????ѡ??!");  
+                        alert("您上传的图片格式不正确，请重新选择!");  
                         return false;  
                       }                            
                       imgObjPreview.style.display = 'none';  
@@ -89,7 +89,7 @@
 					  &times;
 				</button>
 				<h4 class="modal-title" id="myModalLabel">
-					??ӭʹ?ñ???ģ???㣡
+					欢迎使用表情模仿秀！
 				</h4>
 			 </div>
 			 <div class="modal-body">
@@ -105,7 +105,7 @@
 			 </div>
 			 <div class="modal-footer">
 				<button type="button" class="btn btn-default" 
-				   data-dismiss="modal">?ر?
+				   data-dismiss="modal">关闭
 				</button>
 			 </div>
 		  </div><!-- /.modal-content -->
@@ -113,16 +113,16 @@
 	</div><!-- /.modal -->
 	<nav class="navbar navbar-static-top navbar-inverse">
         <div class="container">
-				<a href="#"class="navbar-brand navbar-right" data-toggle="modal" data-target="#myModal">??_????ô????</a>
+				<a href="#"class="navbar-brand navbar-right" data-toggle="modal" data-target="#myModal">→_→怎么玩嘛</a>
 			
 		
 		</div>
     </nav>
 	
-    <!--????ģ̬??˵???淨????ʼ??ͼƬչʾ??????????ť??????ģ??ʲô???顢??һ?????ϴ???Ƭ???ύ-->
+    <!--弹出模态框说明玩法，初始的图片展示栏，两个按钮：看看模仿什么表情、换一个。上传照片，提交-->
 	<div class="container">
 		<div class="row" style="text-align: center">
-			<h1 style="font-family:Palatino Linotype margin: auto">????ģ????</h1>
+			<h1 style="font-family:Palatino Linotype margin: auto">表情模仿秀</h1>
 		</div>
 		</br></br>
 		
@@ -141,7 +141,7 @@
 					<br />
 					<button id="uploadFileId" class="btn btn-default " onclick=" document.getElementById('pic2').click(); ">
 
-					?ϴ??Լ???ģ????Ƭ??????????Ŷ
+					上传自己的模仿照片，尽量传神哦
 					</button>
 
 					<input name="photo" type="file" class="btn btn-default" accept="image/*" style="visibility: hidden; margin: auto" id="pic2" onchange="javascript:setImagePreview(this,localImag,preview)"; required>
@@ -150,12 +150,12 @@
 							<img id="preview" alt="" style="background-color: #FFD306" class="img-thumbnail col-md-6 col-md-offset-3"/>  
 					</div> 
 				<div class="row" style="text-align: center">
-					<button type="submit" style="margin: auto" class="btn-lg btn-danger">?????ҵ?ģ??ָ??(?s?㧥??)?s</button>
+					<button type="submit" style="margin: auto" class="btn-lg btn-danger">计算我的模仿指数(╯°Д°)╯</button>
 				</div>
 				
 				<div class="form-group">
-					<label for="subtitle1"class="sr-only">ͶƱ??ѡ??1</label>
-						<input type="text" class="form-control sr-only" id="pic1" placeholder="?????????ǲ??ɼ??ģ??ұ??????û?ģ?µ?ͼƬ??src,???ڽӿڵ??á?ÿ??ԴͼƬ???µ?ʱ?????????ڵ?????Ҳ??????" >
+					<label for="subtitle1"class="sr-only">投票的选项1</label>
+						<input type="text" class="form-control sr-only" id="pic1" placeholder="这个表项是不可见的！且保存了用户模仿的图片的src,用于接口调用。每次源图片更新的时候这个框内的内容也会更新" >
 				</div>
 			</form>
 		</div>
@@ -168,7 +168,7 @@
       <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-   <!-- ???µ? Bootstrap ???? JavaScript ?ļ? -->
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 	<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	
    </body>
