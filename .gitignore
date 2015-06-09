@@ -60,3 +60,5 @@ target/
 #start.sh
 .avoscloud/
 .avoscloud/
+
+static/img/upload/

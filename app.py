@@ -1,6 +1,7 @@
 # coding: utf-8
 import os
 import random
+import uuid
 from leancloud import File as LeanFile
 
 from datetime import datetime
@@ -12,6 +13,7 @@ from views.todos import todos_view
 
 static_dir = 'static/'
 img_dir = 'static/img/baoman/'
+img_upload_dir = 'static/img/upload/'
 
 app = Flask(__name__)
 # 动态路由
@@ -31,13 +33,22 @@ def another():
 		chosen = img_dir + fn
 	return chosen + '?type=baoman'
 
-@app.route('/show', methods=['POST'])
-def show():
-	print request.files
+@app.route('/result', methods=['POST'])
+def result():
+	#print request.files
 	photo = request.files['photo']
-
-	photo.save(img_dir + 'photo.jpg')
-	return render_template("show.html")
+	photo_uuid = str(uuid.uuid4())
+	print photo_uuid
+	local_file_name = img_upload_dir + photo_uuid + ".jpg"
+	photo.save(local_file_name)
+	#photoFile = LeanFile('fileFromBuffer', buffer(photo))
+	local_file = open(local_file_name)
+	photo_file = LeanFile(photo_uuid, local_file)
+	local_file.close()
+	photo_file.save()
+	resp = make_response(render_template("result.html"))
+	resp.set_cookie("uuid", photo_uuid)
+	return resp
 
 @app.route('/time')
 def time():
