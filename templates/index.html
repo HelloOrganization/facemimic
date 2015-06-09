@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
   <head>
-    <meta charset="gb2312">
+    <meta charset="utf8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Marvelous Imitator of facial expressions!!</title>
@@ -56,7 +56,7 @@
 				<p>步骤三：记下这个表情的精髓！然后默默准备好表情，越像越传神越好~</p>
 				<p>步骤四：拍照或者上传你的模仿秀照片~来看看你的“模仿指数”是多少吧~</p>
 				<p>下面是样例哟：</p>
-				<img id="example" class="img-thumbnail" alt="" src="example.jpg"/>  
+				<img id="example" class="img-thumbnail" alt="" src="static/img/example.jpg"/>  
 
 			 </div>
 			 <div class="modal-footer">
@@ -83,11 +83,11 @@
 		</br></br>
 		
 		
-			<button type="button" class="btn btn-info col-xs-6 col-lg-6">要模仿什么？</button>
-			<button type="button" class="btn btn-info col-xs-6 col-lg-6">DUANG！换一个</button>
+			<button type="button" class="btn btn-info col-xs-6 col-lg-6" onclick='$.get("/another", function(data){console.log(data); $("#preview2").attr("src", data);});'>要模仿什么？</button>
+			<button type="button" class="btn btn-info col-xs-6 col-lg-6" onclick='$.get("/another", function(data){console.log(data); $("#preview2").attr("src", data);});'>DUANG！换一个</button>
 		
 		<div id="localImag2" class=""style="width: 100%">  
-			<img id="preview2" class="img-thumbnail" alt="" src="black.png" onload="javascript:restoreImg(preview2,pic1);" onchange="javascript:restoreImg(preview2,pic1);"/>  
+			<img id="preview2" class="img-thumbnail" alt="" src="static/img/black.png" onload="javascript:restoreImg(preview2,pic1);" onchange="javascript:restoreImg(preview2,pic1);"/>  
 		</div> 
 		<div class="row">
 		<!-- 这里我随便也了个跳转，表单传了两个input：一个file一个text。-->
