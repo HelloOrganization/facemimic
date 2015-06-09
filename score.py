@@ -42,17 +42,30 @@ def expression_score_sightcorp(tag, pic):
 		return float(100) * float((expressions['surprise']['value']+expressions['fear']['value']) / sum)
 	else:
 		return -1
-		
+
+def get_dis(exp1, exp2):
+	sum1 = 0.0
+	for tags in exp1:
+		sum1 += exp1[tags]['value']**2
+	sum1 = math.sqrt(sum1)
+	#print 'sum1',sum1
+	sum2 = 0.0
+	for tags in exp2:
+		sum2 += exp2[tags]['value']**2
+	sum2 = math.sqrt(sum2)
+	#print 'sum2',sum2
+	dis = 0.0
+	for tags in exp2:
+		#print 10*exp1[tags]['value']/sum1, 10*exp2[tags]['value']/sum2
+		dis += (40*exp1[tags]['value']/sum1-40*exp2[tags]['value']/sum2)**2
+	dis = math.sqrt(dis)
+	return dis
+	
 def expression_similarity_sightcorp(pic1, pic2):	
 	#print pic1
 	#print pic2
 	json_resp1 = expression_sightcorp(pic1)
 	res1 = json.loads( json_resp1 )
-	
-	if len(res1['persons'])==0:
-		print 'sample failed'
-		return random.randint(10, 20) 
-		
 	json_resp2 = expression_sightcorp(pic2)
 	res2 = json.loads( json_resp2 )
 	
@@ -63,21 +76,10 @@ def expression_similarity_sightcorp(pic1, pic2):
 	expressions1 = res1['persons'][0]['expressions']
 	expressions2 = res2['persons'][0]['expressions']
 	
-	sum1 = 0.0
-	for tags in expressions1:
-		sum1 += float(expressions1[tags]['value'])
-	sum2 = 0.0
-	for tags in expressions2:
-		sum2 += float(expressions2[tags]['value'])
-		
-	dis = 0.0
+	#dis += (1-expressions2[tags]['value'])**2	
+	dis = get_dis(expressions1, expressions2)
+	return 100-int(dis)
 	
-	for tags in expressions2:
-		dis += (100*expressions1[tags]['value']/sum1-100*expressions2[tags]['value']/sum2)**2
-		#dis += (1-expressions2[tags]['value'])**2
-		
-	return 100-int(math.sqrt(dis))
-		
 def expression_similarity_emovu(pic1, pic2):	
 	pass
 	
@@ -114,16 +116,16 @@ def	expression_emovu(tag, pic):
 	else:
 		return -1
 
-PIC1 = 'D:\\大三下\\计算机网络（实验班）\\Lab2\\baoman\\benchmark\\4.jpg'
-PIC2 = 'D:\\大三下\\计算机网络（实验班）\\Lab2\\test\\ouyang\\4.jpg'
+PIC1 = 'D:\\大三下\\计算机网络（实验班）\\Lab2\\facemimic\\static\\img\\baoman\\benchmark\\4.jpg'
+PIC2 = 'D:\\大三下\\计算机网络（实验班）\\Lab2\\test\\ouyang\\9.jpg'
 
 #score1 = metric_similarity(PIC1, PIC2)
 #print score1
-#tag = 'emoji'
-#if tag == 'emoji':
-#	score = expression_sightcorp(0, PIC1)
-#else:
-#	score = expression_similarity_sightcorp(PIC1, PIC2)
+tag = 'baoman'
+if tag == 'emoji':
+	score = expression_sightcorp(0, PIC1)
+else:
+	score = expression_similarity_sightcorp(PIC1, PIC2)
 
-#print score
+print score
 #print expression_emovu(0, PIC1)
