@@ -28,7 +28,7 @@ def another():
 	while os.path.isdir(chosen):
 		fn = random.choice(os.listdir(img_dir))
 		chosen = img_dir + fn
-	return chosen
+	return chosen, 'baoman'
 
 @app.route('/time')
 def time():
