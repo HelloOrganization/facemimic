@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-cn">
   <head>
@@ -34,7 +35,7 @@
   
   
   <body style ="background-color: #FFD306">
-	<!-- ģ̬��Modal�� -->
+	<!-- 模态框（Modal） -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
 	   aria-labelledby="myModalLabel" aria-hidden="true">
 	   <div class="modal-dialog">
@@ -45,22 +46,22 @@
 					  &times;
 				</button>
 				<h4 class="modal-title" id="myModalLabel">
-					��ӭʹ�ñ���ģ���㣡
+					欢迎使用表情模仿秀！
 				</h4>
 			 </div>
 			 <div class="modal-body">
-				<p>���Ϊ����ģ�´����𣿰����˿����������Լ��ḻ��ʵı���ɣ���Ӧ�û��������һ�����飬��ģ�µ�Խ�񣬡�ģ��ָ����Խ��Ŷ~</p>
-				<p>����һ���������İ�ť���������Լ���Ҫģ�µı�����ʲô��</p>
-				<p>��������о����Ǻܶԣ���ô��һ����ģ�°ɣ�</p>
-				<p>�������������������ľ��裡Ȼ��ĬĬ׼���ñ��飬Խ��Խ����Խ��~</p>
-				<p>�����ģ����ջ����ϴ����ģ������Ƭ~��������ġ�ģ��ָ�����Ƕ��ٰ�~</p>
-				<p>����������Ӵ��</p>
+				<p>想成为表情模仿达人吗？摆脱扑克脸，发现自己丰富多彩的表情吧！本应用会随机给出一个表情，您模仿的越像，“模仿指数”越高哦~</p>
+				<p>步骤一：点击最左的按钮，来看看自己想要模仿的表情是什么。</p>
+				<p>步骤二：感觉不是很对？那么换一个来模仿吧！</p>
+				<p>步骤三：记下这个表情的精髓！然后默默准备好表情，越像越传神越好~</p>
+				<p>步骤四：拍照或者上传你的模仿秀照片~来看看你的“模仿指数”是多少吧~</p>
+				<p>下面是样例哟：</p>
 				<img id="example" class="img-thumbnail" alt="" src="example.jpg"/>  
 
 			 </div>
 			 <div class="modal-footer">
 				<button type="button" class="btn btn-default" 
-				   data-dismiss="modal">�ر�
+				   data-dismiss="modal">关闭
 				</button>
 			 </div>
 		  </div><!-- /.modal-content -->
@@ -68,45 +69,45 @@
 	</div><!-- /.modal -->
 	<nav class="navbar navbar-static-top navbar-inverse">
         <div class="container">
-				<a href="#"class="navbar-brand navbar-left" data-toggle="modal" data-target="#myModal">��_����ô����</a>
+				<a href="#"class="navbar-brand navbar-left" data-toggle="modal" data-target="#myModal">→_→怎么玩嘛</a>
 			
 		
 		</div>
     </nav>
 	
-    <!--����ģ̬��˵���淨����ʼ��ͼƬչʾ����������ť������ģ��ʲô���顢��һ�����ϴ���Ƭ���ύ-->
+    <!--弹出模态框说明玩法，初始的图片展示栏，两个按钮：看看模仿什么表情、换一个。上传照片，提交-->
 	<div class="container">
 		<div class="row" style="text-align: center">
-			<h1 style="font-family:Palatino Linotype margin: auto">����ģ����</h1>
+			<h1 style="font-family:Palatino Linotype margin: auto">表情模仿秀</h1>
 		</div>
 		</br></br>
 		
 		
-			<button type="button" class="btn btn-info col-xs-6 col-lg-6">Ҫģ��ʲô��</button>
-			<button type="button" class="btn btn-info col-xs-6 col-lg-6">DUANG����һ��</button>
+			<button type="button" class="btn btn-info col-xs-6 col-lg-6">要模仿什么？</button>
+			<button type="button" class="btn btn-info col-xs-6 col-lg-6">DUANG！换一个</button>
 		
 		<div id="localImag2" class=""style="width: 100%">  
 			<img id="preview2" class="img-thumbnail" alt="" src="black.png" onload="javascript:restoreImg(preview2,pic1);" onchange="javascript:restoreImg(preview2,pic1);"/>  
 		</div> 
 		<div class="row">
-		<!-- ���������Ҳ�˸���ת��������������input��һ��fileһ��text��-->
+		<!-- 这里我随便也了个跳转，表单传了两个input：一个file一个text。-->
 			<form action="show.html" role="form">
 				<div class="form-group" style="text-align: center">
 					<br />
 					<button id="uploadFileId" class="btn btn-default action" onclick=" document.getElementById('pic2').click(); ">
 
-					�ϴ��Լ���ģ����Ƭ����������Ŷ
+					上传自己的模仿照片，尽量传神哦
 					</button>
 					<input type="file" class="btn btn-default" accept="image/*" style="visibility: hidden; margin: auto" id="pic2" onchange="" required>
 				</div>
 				<!--
 				<div class="row" style="text-align: center">
-					<button type="submit" style="margin: auto" class="btn-lg btn-danger">�����ҵ�ģ��ָ��(�s�㧥��)�s</button>
+					<button type="submit" style="margin: auto" class="btn-lg btn-danger">计算我的模仿指数(╯°Д°)╯</button>
 				</div>
 				-->
 				<div class="form-group">
-					<label for="subtitle1"class="sr-only">ͶƱ��ѡ��1</label>
-						<input type="text" class="form-control sr-only" id="pic1" placeholder="��������ǲ��ɼ��ģ��ұ������û�ģ�µ�ͼƬ��src,���ڽӿڵ��á�ÿ��ԴͼƬ���µ�ʱ��������ڵ�����Ҳ�����" >
+					<label for="subtitle1"class="sr-only">投票的选项1</label>
+						<input type="text" class="form-control sr-only" id="pic1" placeholder="这个表项是不可见的！且保存了用户模仿的图片的src,用于接口调用。每次源图片更新的时候这个框内的内容也会更新" >
 				</div>
 			</form>
 		</div>
@@ -119,7 +120,7 @@
       <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-   <!-- ���µ� Bootstrap ���� JavaScript �ļ� -->
+   <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 	<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	
    </body>
