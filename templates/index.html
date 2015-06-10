@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
-  <head>
-    <meta charset="utf8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Marvelous Imitator of facial expressions!!</title>
-    <!-- Bootstrap -->
+<head>
+	<meta charset="utf8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Marvelous Imitator of facial expressions!!</title>
+	<!-- Bootstrap -->
 	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-	
-	
-	 <script type="text/javascript">
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	<script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+	<script type="text/javascript">
 	 <!--
 		function restoreImg(srcpicid,textid)
 		{
@@ -27,9 +26,8 @@
 		function myAlert() {
 			window.alert("Hello");     
 	    }
-	 -->
-	 </script>
-	 <script type="text/javascript">
+	 --> </script>
+	<script type="text/javascript">
 <!--		
             function setImagePreview(docObj,localImagId,imgObjPreview)   
             {  
@@ -70,107 +68,93 @@
                 }  
                 return true;  
             }  
-			-->
-    </script>  
-	 
-  </head>
-  
-  
-  
-  <body style ="background-color: #FFD306">
-	<!-- ģ̬????Modal?? -->
+			--> </script>
+
+</head>
+
+<body style ="background-color: #FFD306">
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
 	   aria-labelledby="myModalLabel" aria-hidden="true">
-	   <div class="modal-dialog">
-		  <div class="modal-content">
-			 <div class="modal-header">
-				<button type="button" class="close" 
-				   data-dismiss="modal" aria-hidden="true">
-					  &times;
-				</button>
-				<h4 class="modal-title" id="myModalLabel">
-					欢迎使用表情模仿秀！
-				</h4>
-			 </div>
-			 <div class="modal-body">
-				<p>想成为表情模仿达人吗？摆脱扑克脸，发现自己丰富多彩的表情吧！本应用会随机给出一个表情，您模仿的越像，“模仿指数”越高哦~</p>
-				<p>步骤一：点击最左的按钮，来看看自己想要模仿的表情是什么。</p>
-				<p>步骤二：感觉不是很对？那么换一个来模仿吧！</p>
-				<p>步骤三：记下这个表情的精髓！然后默默准备好表情，越像越传神越好~</p>
-				<p>步骤四：拍照或者上传你的模仿秀照片~来看看你的“模仿指数”是多少吧~</p>
-				<p>下面是样例哟：</p>
-				<img id="example" class="img-thumbnail" alt="" src="static/img/example.jpg"/>  
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" 
+				   data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">欢迎使用表情模仿秀！</h4>
+				</div>
+				<div class="modal-body">
+					<p>想成为表情模仿达人吗？摆脱扑克脸，发现自己丰富多彩的表情吧！本应用会随机给出一个表情，您模仿的越像，“模仿指数”越高哦~</p>
+					<p>步骤一：点击最左的按钮，来看看自己想要模仿的表情是什么。</p>
+					<p>步骤二：感觉不是很对？那么换一个来模仿吧！</p>
+					<p>步骤三：记下这个表情的精髓！然后默默准备好表情，越像越传神越好~</p>
+					<p>步骤四：拍照或者上传你的模仿秀照片~来看看你的“模仿指数”是多少吧~</p>
+					<p>下面是样例哟：</p>
+					<img id="example" class="img-thumbnail" alt="" src="/static/img/example.jpg"/>
 
-
-			 </div>
-			 <div class="modal-footer">
-				<button type="button" class="btn btn-default" 
-				   data-dismiss="modal">关闭
-				</button>
-			 </div>
-		  </div><!-- /.modal-content -->
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" 
+				   data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
 		</div>
-	</div><!-- /.modal -->
+	</div>
+	<!-- /.modal -->
 	<nav class="navbar navbar-static-top navbar-inverse">
-        <div class="container">
-				<a href="#"class="navbar-brand navbar-right" data-toggle="modal" data-target="#myModal">→_→怎么玩嘛</a>
-			
-		
+		<div class="container">
+			<a href="#"class="navbar-brand navbar-right" data-toggle="modal" data-target="#myModal">→_→怎么玩嘛</a>
+
 		</div>
-    </nav>
-	
-    <!--弹出模态框说明玩法，初始的图片展示栏，两个按钮：看看模仿什么表情、换一个。上传照片，提交-->
+	</nav>
+
+	<!--弹出模态框说明玩法，初始的图片展示栏，两个按钮：看看模仿什么表情、换一个。上传照片，提交-->
 	<div class="container">
 		<div class="row" style="text-align: center">
 			<h1 style="font-family:Palatino Linotype margin: auto">表情模仿秀</h1>
 		</div>
-		</br></br>
-		
-		
-			<button type="button" class="btn btn-info col-xs-6 col-lg-6" onclick='$.get("/another", function(data){console.log(data); $("#preview2").attr("src", data);});'>要模仿什么？</button>
+		<br/>
+		<br/>
+
+		<!--
 			<button type="button" class="btn btn-info col-xs-6 col-lg-6" onclick='$.get("/another", function(data){console.log(data); $("#preview2").attr("src", data);});'>DUANG！换一个</button>
-		
-		<div id="localImag2" class=""style="width: 100%">  
-			<img id="preview2" class="img-thumbnail" alt="" src="static/img/black.png" onload="javascript:restoreImg(preview2,pic1);" onchange="javascript:restoreImg(preview2,pic1);"/>  
-		</div> 
-		<div class="row">
-		<!-- 这里我随便也了个跳转，表单传了两个input：一个file一个text。-->
-			<form action="result" role="form" method="Post" enctype="multipart/form-data">
-
-				<div class="form-group" style="text-align: center">
-					<br />
-					<button id="uploadFileId" class="btn btn-default " onclick=" document.getElementById('pic2').click(); ">
-
-					上传自己的模仿照片，尽量传神哦
-					</button>
-
-					<input name="photo" type="file" class="btn btn-default" accept="image/*" style="visibility: hidden; margin: auto" id="pic2" onchange="javascript:setImagePreview(this,localImag,preview)"; required>
-				</div>
-				 <div class="row" id="localImag" style="text-align: center; background-color: #FFD306">  
-							<img id="preview" alt="" style="background-color: #FFD306" class="img-thumbnail col-md-6 col-md-offset-3"/>  
-					</div> 
-				<div class="row" style="text-align: center">
-					<button type="submit" style="margin: auto" class="btn-lg btn-danger">计算我的模仿指数(╯°Д°)╯</button>
-				</div>
-				
-				<div class="form-group">
-					<label for="subtitle1"class="sr-only">投票的选项1</label>
-						<input type="text" class="form-control sr-only" id="pic1" placeholder="这个表项是不可见的！且保存了用户模仿的图片的src,用于接口调用。每次源图片更新的时候这个框内的内容也会更新" >
-				</div>
-			</form>
-		</div>
+	-->
+	<div id="localImag2" class=""style="width: 100%; text-align: center">
+		<img id="preview2" class="img-thumbnail" alt="" src="/static/img/black.png" />
+		<!--onload="javascript:restoreImg(preview2,pic1);" onchange="javascript:restoreImg(preview2,pic1);" />-->
 	</div>
+	<button type="button" class="btn btn-info col-xs-8 col-xs-offset-2 col-lg-6" onclick='$.get("/another", function(data){console.log(data); $("#preview2").attr("src", data);});'>要模仿什么？</button>
 
-	</br></br></br>
-   <nav class="navbar navbar-fixed-bottom navbar-inverse">
-        <span class="navbar-text"style="font-family:Palatino Linotype">Designed by Qingying Chen, Yiqun Ouyang, Minxing Liu, Yangqingwei Shi, Peking University.</span>
-    </nav>
-      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-	<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-	
-   </body>
+	<button id="uploadFileId" class="btn btn-default col-xs-8 col-xs-offset-2" onclick=" document.getElementById('pic2').click(); ">上传自己的模仿照片，尽量传神哦</button>
+
+	<div class="row">
+		<!-- 这里我随便也了个跳转，表单传了两个input：一个file一个text。-->
+		<form action="result.html" role="form" method="Post" enctype="multipart/form-data">
+			<div class="row" id="localImag" style="text-align: center; background-color: #FFD306">
+				<img id="preview" alt="" style="background-color: #FFD306; " class="img-thumbnail col-md-6 col-md-offset-3"/>
+			</div>
+			<div class="row" style="text-align: center">
+				<button type="submit" style="margin: auto" class="btn-lg btn-danger">计算我的模仿指数(╯°Д°)╯</button>
+			</div>
+
+			<input name="photo" type="file" class="btn btn-default" accept="image/*" style="visibility: hidden; margin: auto" id="pic2" onchange="javascript:setImagePreview(this,localImag,preview)" required="required">
+		</form>
+	</div>
+</div>
+
+<br/>
+<br/>
+<br/>
+<nav class="navbar navbar-fixed-bottom navbar-inverse">
+	<span class="navbar-text"style="font-family:Palatino Linotype">
+		Designed by Qingying Chen, Yiqun Ouyang, Minxing Liu, Yangqingwei Shi, Peking University.
+	</span>
+</nav>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+</body>
 </html>
-  
