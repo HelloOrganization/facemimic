@@ -48,7 +48,7 @@
 	
 	
 		<div class="container">
-			<h2>我的模仿指数是：<span id='score' class="label label-primary">15</span></h2>
+			<h2>我的模仿指数是：<span id='score' class="label label-primary"></span></h2>
 			<h4>专家点评：</h4>
 			<p>还需继续努力哟~节操什么的就不要太在意了。</p>
 			<div class="row">
@@ -95,10 +95,11 @@
 
 	<script type="text/javascript">
 		var srcStr = localStorage.getItem('test');//获取本地存储的元素
-   		var imgobj =  document.getElementById("preview2")
+   		var imgobj =  document.getElementById("preview1")
    		imgobj.src = srcStr;//指定图片路径
+   		$("#preview2").attr("src", $.cookie("dst_img"));
 		var url = '/calc?uuid=' + $.cookie("uuid") + "&dst_img=" + $.cookie("dst_img");
-
+		console.log(url);
 		$.get(url, function(data, status) {
 			$('#score').text(data);
 		});
