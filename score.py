@@ -21,9 +21,9 @@ def expression_sightcorp(pic):
               data   = { 'app_key'   : '4abab32a3d064bdb85810374b6c01d5f',
                          'client_id' : 'a54ed59cac2f4d169d1e6f6f555003df',
 						 'attribute' : 'expressions',
-						 'max_persons': 1},		
-						 #'url'	: pic},
-              files  = { 'img'       : ( 'filename', open( pic, 'rb' ) ) }, 
+						 'max_persons': 1,
+						 'url'	: "http://115.28.91.77:8080/Lab2/baoman/1.jpg"}
+              #files  = { 'img'       : ( 'filename', open( pic, 'rb' ) ) }, 
 			   )
 	print json_resp.text
 	return json_resp.text
@@ -134,3 +134,4 @@ def calc_score(user_pic, dst_pic):
 
 # pickle.dump(bench,bench_file)
 # bench_file.close()
+expression_sightcorp("a")
