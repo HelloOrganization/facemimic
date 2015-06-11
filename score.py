@@ -26,7 +26,7 @@ def expression_score_sightcorp(tag, pic):
 	#print_result("sightcorp", json_resp)
 	if len(res['persons'])==0:
 		print 'no face detected'
-		return -1
+		return 0
 		
 	expressions = res['persons'][0]['expressions']
 	sum = 0.0
@@ -41,7 +41,7 @@ def expression_score_sightcorp(tag, pic):
 	elif tag == 3:
 		return float(100) * float((expressions['surprise']['value']+expressions['fear']['value']) / sum)
 	else:
-		return -1
+		return 0
 
 def get_dis(exp1, exp2):
 	sum1 = 0.0
@@ -71,7 +71,7 @@ def expression_similarity_sightcorp(pic1, pic2):
 	
 	if len(res2['persons'])==0:
 		print 'no face detected'
-		return -1
+		return 0
 	
 	expressions1 = res1['persons'][0]['expressions']
 	expressions2 = res2['persons'][0]['expressions']
@@ -79,53 +79,17 @@ def expression_similarity_sightcorp(pic1, pic2):
 	#dis += (1-expressions2[tags]['value'])**2	
 	dis = get_dis(expressions1, expressions2)
 	return 100-int(dis)
-	
-def expression_similarity_emovu(pic1, pic2):	
-	pass
-	
-def	expression_emovu(tag, pic):
-	# These code snippets use an open-source library.
-	json_resp = unirest.post('https://eyeris-emovu1.p.mashape.com/api/image/',
-	headers={
-		'X-Mashape-Key': 'K4gmRxshbImshxXK8buxJ1QGrD3np14v21RjsnWr38C6Z2mRKK',
-		'LicenseKey': '91162419401583315055922891341512811500166419030313339055722642691802111528'
-	},
-	params={
-		'imageFile': open('D:\\大三下\\计算机网络（实验班）\\Lab2\\test\\ouyang\\disgust.jpg', mode='rb')
-	})
-	print "emovu : ", json_resp.body
-	res = json.loads( json_resp.body )
-	if len(res['FaceAnalysisResults'])==0:
-		print 'no face detected'
-		return -1
-	
-	expressions = res['FaceAnalysisResults'][0]['EmotionResult']
-	sum = 0.0
-	for tags in expressions:
-		if tags!='Computed':
-			sum += float(expressions[tags])
-			
-	if tag == 0:		
-		return float(100) * float((expressions['Joy']+expressions['Surprise']['value']) / sum)
-	elif tag == 1:
-		return float(100) * float((expressions['Anger']['value']+expressions['Disgust']['value']) / sum)
-	elif tag == 2:
-		return float(100) * float((expressions['Sadness']['value']+expressions['Fear']['value']+expressions['Disgust']['value']) / sum)
-	elif tag == 3:
-		return float(100) * float((expressions['Surprise']['value']+expressions['Fear']['value']) / sum)
-	else:
-		return -1
-
-PIC1 = 'D:\\大三下\\计算机网络（实验班）\\Lab2\\facemimic\\static\\img\\baoman\\benchmark\\4.jpg'
-PIC2 = 'D:\\大三下\\计算机网络（实验班）\\Lab2\\test\\ouyang\\9.jpg'
 
 #score1 = metric_similarity(PIC1, PIC2)
 #print score1
-tag = 'baoman'
-if tag == 'emoji':
-	score = expression_sightcorp(0, PIC1)
-else:
-	score = expression_similarity_sightcorp(PIC1, PIC2)
-
-print score
+def calc_score(user_pic, dst_pic):
+	res = dst_pic.split('/')
+	dst_name = res[-1]
+	if dst_name[0] == 'e':
+		tag = dst_name[2]
+		score = expression_sightcorp(int(tag), user_pic)
+	else:
+		benchmark_pic = res[0]+res[1]+'benchmark/'+res[2]
+		score = expression_similarity_sightcorp(benchmark_pic, user_pic)
+	return score
 #print expression_emovu(0, PIC1)
