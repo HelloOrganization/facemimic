@@ -109,7 +109,7 @@ def expression_similarity_sightcorp(benchmark_index, user_pic):
 #score1 = metric_similarity(PIC1, PIC2)
 #print score1
 def get_per(score):
-	return 100*int(math.sqrt(score/100))
+	return 100*int(math.sqrt(float(score)/100))
 
 def getreview(score):
 	if score >= 95 and score <= 100:
@@ -131,9 +131,9 @@ def compress(user_pic):
 	user_img = Image.open(user_pic)
 	ori_w,ori_h = user_img.size
 	if max(ori_h,ori_w) >= 1000:
-		ratio = 1000/max(ori_h,ori_w)
-		new_img = user_img.resize(ori_w*ratio,ori_h*ratio) 
-		new_img.save(user_pic)
+		ratio = 1000.0/max(ori_h,ori_w)
+		new_img = user_img.resize((int(ori_w*ratio), int(ori_h*ratio)))
+		new_img.save(user_pic + ".min.jpg")
 
 def calc_score(user_pic, dst_pic):
 	#print user_pic, dst_pic
@@ -147,7 +147,7 @@ def calc_score(user_pic, dst_pic):
 		benchmark_index = (dst_name.split('.'))[0]
 		#print benchmark_index
 		score = expression_similarity_sightcorp(int(benchmark_index), user_pic)
-	return [score, norm(score), getreview(score)]
+	return [score, get_per(score), getreview(score)]
 #print expression_emovu(0, PIC1)
 
 # print expression_similarity_sightcorp(1, "static/img/benchmark/1.jpg")
