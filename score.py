@@ -23,7 +23,8 @@ def expression_sightcorp(pic):
                          'client_id' : 'a54ed59cac2f4d169d1e6f6f555003df',
 						 'attribute' : 'expressions',
 						 'max_persons': 1,		
-						 'url'	: pic}
+						 'url':pic}
+						 #'url'	: 'http://115.28.91.77:8080/Lab2/baoman/1.jpg'}
               #files  = { 'img'       : ( 'filename', open( pic, 'rb' ) ) }, 
 			   )
 	print json_resp.text
@@ -123,7 +124,7 @@ def calc_score(user_pic, dst_pic):
 	dst_name = res[-1]
 	if dst_name[0] == 'e':
 		tag = dst_name[2]
-		score = expression_sightcorp(int(tag), user_pic)
+		score = expression_score_sightcorp(int(tag), user_pic)
 	else:
 		benchmark_index = (dst_name.split('.'))[0]
 		print benchmark_index

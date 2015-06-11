@@ -1,4 +1,8 @@
 # coding: utf-8
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
 import os
 import random
 import uuid
@@ -8,7 +12,6 @@ from datetime import datetime
 
 from flask import Flask, request
 from flask import render_template, send_file, make_response, redirect
-import sys
 from views.todos import todos_view
 from score import calc_score
 DEBUG = True
@@ -17,6 +20,9 @@ img_dir = 'static/img/'
 img_upload_dir = 'static/img/upload/'
 
 app = Flask(__name__)
+app.config.from_object(__name__)
+app.config.from_envvar('FLASKR_SETTINGS', silent=True)
+
 # 动态路由
 app.register_blueprint(todos_view, url_prefix='/todos')
 
@@ -70,7 +76,7 @@ def result():
 			score_arr = calc_score(local_file_name, dst_img)
 		else:
 			score_arr = calc_score(photo_file.url, dst_img)
-		print 'ok'
+		print 'ok', score_arr
 		resp = make_response(render_template("result.html", score=score_arr[0], percent=score_arr[1], review=score_arr[2]))
 		resp.set_cookie('ajax', '0')
 		return resp
