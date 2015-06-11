@@ -50,6 +50,13 @@ def result():
 	resp.set_cookie("uuid", photo_uuid)
 	return resp
 
+@app.route('/calc')
+def calc():
+	photo_uuid = request.args.get('uuid')
+	dst_img = request.args.get('dst_img');
+	print photo_uuid, dst_img
+	return '100'
+
 @app.route('/time')
 def time():
     return str(datetime.now())

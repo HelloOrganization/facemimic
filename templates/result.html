@@ -1,7 +1,8 @@
+
 <!DOCTYPE html>
 <html lang="zh-cn">
   <head>
-    <meta charset="gb2312">
+    <meta charset="utf8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Marvelous Imitator of facial expressions!!</title>
@@ -37,14 +38,14 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			  </button>
-			  <a class="navbar-brand" href="lala.html" ><strong>��������</strong></a>
+			  <a class="navbar-brand" href="lala.html" ><strong>关于我们</strong></a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 			 <ul class="nav navbar-nav">
-				<li><a href="#">������XXX</a></li>
-				<li><a href="#">������XXX</a></li>
-				<li><a href="#">��������</a></li>
-				<li><a href="#">�����ղ�</a></li>
+				<li><a href="#">分享到XXX</a></li>
+				<li><a href="#">分享到XXX</a></li>
+				<li><a href="#">复制链接</a></li>
+				<li><a href="#">加入收藏</a></li>
 			  </ul>
 			</div>
 		</div>
@@ -52,14 +53,14 @@
 	
 	
 		<div class="container">
-			<h2>�ҵ�ģ��ָ���ǣ�<span class="label label-primary">15</span></h2>
-			<h4>ר�ҵ�����</h4>
-			<p>�������Ŭ��Ӵ~�ڲ�ʲô�ľͲ�Ҫ̫�����ˡ�</p>
+			<h2>我的模仿指数是：<span id='score' class="label label-primary">15</span></h2>
+			<h4>专家点评：</h4>
+			<p>还需继续努力哟~节操什么的就不要太在意了。</p>
 			<div class="row">
 				<div class="form-group col-md-6">
 				
 					<div class="">
-						<label for="subtitle2">�ҵı���:</label>
+						<label for="subtitle2">我的表情:</label>
 						
 					</div>
 					<a href="#"  class="thumbnail">
@@ -71,7 +72,7 @@
 				</div>
 				<div class="form-group col-md-6">
 					<div class="">
-						<label for="subtitle2">����ģ�µı���:</label>
+						<label for="subtitle2">我所模仿的表情:</label>
 						
 					</div>
 					<a href="#" class="thumbnail">
@@ -83,7 +84,7 @@
 				</div>
 			</div>
 			<div class="row" style="text-align: center">
-				<a href="index.html" style="margin: auto" class="btn btn-lg btn-danger">���١�������һ�Σ���(*>�n<*)��</a>
+				<a href="/" style="margin: auto" class="btn btn-lg btn-danger">再再……再来一次！‘(*>﹏<*)′</a>
 			</div>
 		</div>
 	</br></br></br>
@@ -94,9 +95,13 @@
     <!--script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script-->
 	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-   <!-- ���µ� Bootstrap ���� JavaScript �ļ� -->
+   <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 	<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-	
+	<script type="text/javascript">
+		$.get("/calc?" + document.cookie, function(data, status) {
+			$('#score').text(data);
+		});
+	</script>
    </body>
 </html>
