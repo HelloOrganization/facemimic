@@ -105,27 +105,28 @@ def	expression_emovu(tag, pic):
 		if tags!='Computed':
 			sum += float(expressions[tags])
 			
-	if tag == 0:		
+	if tag == 1:		
 		return float(100) * float((expressions['Joy']+expressions['Surprise']['value']) / sum)
-	elif tag == 1:
-		return float(100) * float((expressions['Anger']['value']+expressions['Disgust']['value']) / sum)
 	elif tag == 2:
-		return float(100) * float((expressions['Sadness']['value']+expressions['Fear']['value']+expressions['Disgust']['value']) / sum)
+		return float(100) * float((expressions['Anger']['value']+expressions['Disgust']['value']) / sum)
 	elif tag == 3:
+		return float(100) * float((expressions['Sadness']['value']+expressions['Fear']['value']+expressions['Disgust']['value']) / sum)
+	elif tag == 4:
 		return float(100) * float((expressions['Surprise']['value']+expressions['Fear']['value']) / sum)
 	else:
 		return -1
 
-PIC1 = 'D:\\大三下\\计算机网络（实验班）\\Lab2\\facemimic\\static\\img\\baoman\\benchmark\\4.jpg'
-PIC2 = 'D:\\大三下\\计算机网络（实验班）\\Lab2\\test\\ouyang\\9.jpg'
 
 #score1 = metric_similarity(PIC1, PIC2)
 #print score1
-tag = 'baoman'
-if tag == 'emoji':
-	score = expression_sightcorp(0, PIC1)
-else:
-	score = expression_similarity_sightcorp(PIC1, PIC2)
-
-print score
+def calc_score(user_pic, dst_pic):
+	res = dst_pic.split('/')
+	dst_name = res[-1]
+	if dst_name[0] == 'e':
+		tag = dst_name[2]
+		score = expression_sightcorp(int(tag), user_pic)
+	else:
+		benchmark_pic = res[0]+res[1]+'benchmark/'+res[2]
+		score = expression_similarity_sightcorp(benchmark_pic, user_pic)
+	return score
 #print expression_emovu(0, PIC1)
