@@ -97,7 +97,8 @@
 		var srcStr = localStorage.getItem('test');//获取本地存储的元素
    		var imgobj =  document.getElementById("preview2")
    		imgobj.src = srcStr;//指定图片路径
-		var url = '/calc?uuid=' + $.cookie("uuid") + "&dst_img=" + $.cookie("dst_img") + "&type=" + $.cookie("type");
+		var url = '/calc?uuid=' + $.cookie("uuid") + "&dst_img=" + $.cookie("dst_img");
+
 		$.get(url, function(data, status) {
 			$('#score').text(data);
 		});
