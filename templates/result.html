@@ -18,7 +18,12 @@
 	
 	 <script type="text/javascript">
 	 <!--
-		
+		function getsrc(key){
+   			var srcStr = localStorage.getItem(key);//获取本地存储的元素
+   			var imgobj =  document.getElementById("preview2")
+   			imgobj.src = srcStr;//指定图片路径
+   			//document.body.appendChild(imgobj);//在页面中添加元素
+  		}
 	 -->
 	 </script>
   </head>
@@ -37,14 +42,14 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			  </button>
-			  <a class="navbar-brand" href="lala.html" ><strong>��������</strong></a>
+			  <a class="navbar-brand" href="lala.html" ><strong>¹ØÓÚÎÒÃÇ</strong></a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 			 <ul class="nav navbar-nav">
-				<li><a href="#">������XXX</a></li>
-				<li><a href="#">������XXX</a></li>
-				<li><a href="#">��������</a></li>
-				<li><a href="#">�����ղ�</a></li>
+				<li><a href="#">·ÖÏíµ½XXX</a></li>
+				<li><a href="#">·ÖÏíµ½XXX</a></li>
+				<li><a href="#">¸´ÖÆÁ´½Ó</a></li>
+				<li><a href="#">¼ÓÈëÊÕ²Ø</a></li>
 			  </ul>
 			</div>
 		</div>
@@ -52,14 +57,14 @@
 	
 	
 		<div class="container">
-			<h2>�ҵ�ģ��ָ���ǣ�<span class="label label-primary">15</span></h2>
-			<h4>ר�ҵ�����</h4>
-			<p>�������Ŭ��Ӵ~�ڲ�ʲô�ľͲ�Ҫ̫�����ˡ�</p>
+			<h2>ÎÒµÄÄ£·ÂÖ¸ÊýÊÇ£º<span class="label label-primary">15</span></h2>
+			<h4>×¨¼ÒµãÆÀ£º</h4>
+			<p>»¹Ðè¼ÌÐøÅ¬Á¦Ó´~½Ú²ÙÊ²Ã´µÄ¾Í²»ÒªÌ«ÔÚÒâÁË¡£</p>
 			<div class="row">
 				<div class="form-group col-md-6">
 				
 					<div class="">
-						<label for="subtitle2">�ҵı���:</label>
+						<label for="subtitle2">ÎÒµÄ±íÇé:</label>
 						
 					</div>
 					<a href="#"  class="thumbnail">
@@ -71,19 +76,19 @@
 				</div>
 				<div class="form-group col-md-6">
 					<div class="">
-						<label for="subtitle2">����ģ�µı���:</label>
+						<label for="subtitle2">ÎÒËùÄ£·ÂµÄ±íÇé:</label>
 						
 					</div>
 					<a href="#" class="thumbnail">
 						
 						<div id="localImag2" >  
-							<img id="preview2" class="img-thumbnail"alt="" src="2.jpg"/>  
+							<img id="preview2" class="img-thumbnail"alt="" src="2.jpg" onload="getsrc('test')")"/>  
 						</div> 
 					</a>
 				</div>
 			</div>
 			<div class="row" style="text-align: center">
-				<a href="index.html" style="margin: auto" class="btn btn-lg btn-danger">���١�������һ�Σ���(*>�n<*)��</a>
+				<a href="index.html" style="margin: auto" class="btn btn-lg btn-danger">ÔÙÔÙ¡­¡­ÔÙÀ´Ò»´Î£¡¡®(*>©n<*)¡ä</a>
 			</div>
 		</div>
 	</br></br></br>
@@ -94,7 +99,7 @@
     <!--script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script-->
 	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-   <!-- ���µ� Bootstrap ���� JavaScript �ļ� -->
+   <!-- ×îÐÂµÄ Bootstrap ºËÐÄ JavaScript ÎÄ¼þ -->
 	<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	

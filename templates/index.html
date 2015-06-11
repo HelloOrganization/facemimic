@@ -162,6 +162,32 @@
 		Designed by Qingying Chen, Yiqun Ouyang, Minxing Liu, Yangqingwei Shi, Peking University.
 	</span>
 </nav>
+<script type="text/javascript">
+<!--
+	preview = document.getElementById("preview");
+
+	preview.addEventListener("load", function () {
+
+ 		var imgCanvas = document.createElement("canvas"),
+ 		imgContext = imgCanvas.getContext("2d");
+		// 确保canvas元素的大小和图片尺寸一致
+		imgCanvas.width = preview.width;
+		imgCanvas.height = preview.height;
+
+		// 渲染图片到canvas中
+		imgContext.drawImage(preview, 0, 0, imgCanvas.width, imgCanvas.height);
+		// 用data url的形式取出
+		var imgAsDataURL = imgCanvas.toDataURL("image/png");
+				alert(imgAsDataURL)
+		// 保存到本地存储中
+		try {
+			localStorage.setItem("test", imgAsDataURL);
+		}catch (e) {
+			console.log("Storage failed: " + e);
+		}
+	}, false);
+-->
+</script>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
