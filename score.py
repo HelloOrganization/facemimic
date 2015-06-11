@@ -16,21 +16,32 @@ bench_list = pickle.load(bench_file)
 # finally:
 #      bench_file.close()
 
-def expression_sightcorp(pic):
+def expression_sightcorp_url(pic):
 	json_resp = requests.post( 'http://api.sightcorp.com/api/detect/',
               data   = { 'app_key'   : '4abab32a3d064bdb85810374b6c01d5f',
                          'client_id' : 'a54ed59cac2f4d169d1e6f6f555003df',
 						 'attribute' : 'expressions',
-						 'max_persons': 1,
-						 'url'	: "http://115.28.91.77:8080/Lab2/baoman/1.jpg"}
-              #files  = { 'img'       : ( 'filename', open( pic, 'rb' ) ) }, 
+						 'max_persons': 1,		
+						 'url': pic } 
 			   )
 	print json_resp.text
 	return json_resp.text
+
+def expression_sightcorp_file(pic):
+	json_resp = requests.post( 'http://api.sightcorp.com/api/detect/',
+              data   = { 'app_key'   : '4abab32a3d064bdb85810374b6c01d5f',
+                         'client_id' : 'a54ed59cac2f4d169d1e6f6f555003df',
+						 'attribute' : 'expressions',
+						 'max_persons': 1 },
+              files  = { 'img'       : ( 'filename', open( pic, 'rb' ) ) }
+			   )
+	print json_resp.text
+	return json_resp.text
+
 	
 def expression_score_sightcorp(tag, pic):
 	#print pic
-	json_resp = expression_sightcorp(pic)
+	json_resp = expression_sightcorp_file(pic)
 	res = json.loads( json_resp )
 	#print_result("sightcorp", json_resp)
 	if len(res['persons'])==0:
@@ -71,13 +82,11 @@ def get_dis(exp1, exp2):
 	return dis
 	
 def expression_similarity_sightcorp(benchmark_index, user_pic):	
-	#print pic1
-	#print pic2
 	global bench_list
 	#print "len",len(bench_list)
 	json_resp1 = bench_list[benchmark_index-1]
 	res1 = json.loads( json_resp1 )
-	json_resp2 = expression_sightcorp(user_pic)
+	json_resp2 = expression_sightcorp_file(user_pic)
 	res2 = json.loads( json_resp2 )
 
 	
@@ -114,14 +123,16 @@ def getreview(score):
 		return "噗，好像没有检查到人脸啊……><"
 
 def calc_score(user_pic, dst_pic):
+	#print user_pic, dst_pic
 	res = dst_pic.split('/')
 	dst_name = res[-1]
 	if dst_name[0] == 'e':
 		tag = dst_name[2]
-		score = expression_sightcorp(int(tag), user_pic)
+		score = expression_score_sightcorp(int(tag), user_pic)
 	else:
 		benchmark_index = (dst_name.split('.'))[0]
-		score = expression_similarity_sightcorp(benchmark_index, user_pic)
+		#print benchmark_index
+		score = expression_similarity_sightcorp(int(benchmark_index), user_pic)
 	return [score, sigmoid(score), getreview(score)]
 #print expression_emovu(0, PIC1)
 
@@ -134,4 +145,4 @@ def calc_score(user_pic, dst_pic):
 
 # pickle.dump(bench,bench_file)
 # bench_file.close()
-expression_sightcorp("a")
+#expression_sightcorp("a")

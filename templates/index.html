@@ -146,7 +146,7 @@
 				<img id="preview" alt="" style="background-color: #FFD306; border: #FFD306" class="img-thumbnail col-md-6 col-md-offset-3"/>
 			</div>
 			<div id="cal" class="row" style="text-align:center;display:none">
-				<button type="submit" style="margin: auto" class="btn-lg btn-danger">计算我的模仿指数(╯°Д°)╯</button>
+				<button type="submit" style="margin: auto" class="btn-lg btn-danger" onclick='$("#calc_score").attr("action", "/result?dst_img="+$.cookie("dst_img"));return true;'>计算我的模仿指数(╯°Д°)╯</button>
 			</div>
 
 			<input name="photo" type="file" class="btn btn-default" accept="image/*" style="visibility: hidden; margin: auto" id="pic2" onchange="javascript:setImagePreview(this,localImag,preview)" required="required">
@@ -192,7 +192,9 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="static/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="static/js/jquery.cookie.js">
+
+</script>
 
 </body>
 </html>

@@ -1,4 +1,8 @@
 # coding: utf-8
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
 import os
 import random
 import uuid
@@ -8,20 +12,27 @@ from datetime import datetime
 
 from flask import Flask, request
 from flask import render_template, send_file, make_response, redirect
-import sys
 from views.todos import todos_view
 from score import calc_score
-
+DEBUG = True
 static_dir = 'static/'
 img_dir = 'static/img/'
 img_upload_dir = 'static/img/upload/'
 
 app = Flask(__name__)
+app.config.from_object(__name__)
+app.config.from_envvar('FLASKR_SETTINGS', silent=True)
+
 # 动态路由
 app.register_blueprint(todos_view, url_prefix='/todos')
 
+
+not_ajax = False
+if len(sys.argv) > 1 and sys.argv[1] == 'not_ajax':
+	not_ajax = True
+
 use_local = False
-if len(sys.argv) > 1 and sys.argv[1] == 'use_local':
+if len(sys.argv) > 2 and sys.argv[2] == 'use_local':
 	use_local = True
 
 @app.route('/', methods=['GET'])
@@ -50,17 +61,31 @@ def result():
 	photo_file.save()
 	print 'save leancloud'
 	print use_local
-	resp = make_response(render_template("result.html"))
-	resp.set_cookie('url', photo_file.url)
 	if use_local:
-		resp.set_cookie("uuid", photo_uuid)
 		local_file_name = img_upload_dir + photo_uuid + ".jpg"
 		dst = open(local_file_name, 'wb')
 		dst.write(content)
 		dst.close()
 		print 'use_local', local_file_name
 	print 'after save'
-	return resp
+	global not_ajax
+	if not_ajax:
+		dst_img = request.args.get('dst_img')
+		print 'not_ajax', dst_img, photo_file.url
+		if use_local:
+			score_arr = calc_score(local_file_name, dst_img)
+		else:
+			score_arr = calc_score(photo_file.url, dst_img)
+		print 'ok', score_arr
+		resp = make_response(render_template("result.html", score=score_arr[0], percent=score_arr[1], review=score_arr[2]))
+		resp.set_cookie('ajax', '0')
+		return resp
+	else:
+		resp = make_response(render_template("result.html", score='?', percent='?', review='...'))
+		resp.set_cookie('ajax', '1')
+		resp.set_cookie('url', photo_file.url)
+		resp.set_cookie("uuid", photo_uuid)
+		return resp
 
 @app.route('/calc')
 def calc():
@@ -71,12 +96,12 @@ def calc():
 		photo_uuid = request.args.get('uuid')
 		user_img = img_upload_dir + photo_uuid + ".jpg"
 		print 'user_img:', user_img
-		score = calc_score(user_img, dst_img)
+		score_arr = calc_score(user_img, dst_img)
 	else:
 		user_url = request.args.get('url')
 		print 'user_url:', user_url
-		score = calc_score(user_url, dst_img)
-	return str(score)
+		score_arr = calc_score(user_url, dst_img)
+	return str(score_arr)
 
 @app.route('/time')
 def time():
