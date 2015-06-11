@@ -101,7 +101,7 @@
 	<script type="text/javascript" src="static/js/jquery.cookie.js"></script>
 
 	<script type="text/javascript">
-		var url = '/calc?uuid=' + $.cookie("uuid") + "&dst_img=" + $.cookie("dst_img") + "&type=" + $.cookie("type");
+		var url = '/calc?uuid=' + $.cookie("uuid") + "&dst_img=" + $.cookie("dst_img");// + "&type=" + $.cookie("type");
 		$.get(url, function(data, status) {
 			$('#score').text(data);
 		});

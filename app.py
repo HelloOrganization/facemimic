@@ -31,7 +31,7 @@ def another():
 	while os.path.isdir(chosen):
 		fn = random.choice(os.listdir(img_dir))
 		chosen = img_dir + fn
-	return chosen + '?type=baoman'
+	return chosen
 
 @app.route('/result', methods=['POST'])
 def result():
@@ -54,13 +54,10 @@ def result():
 def calc():
 	photo_uuid = request.args.get('uuid')
 	dst_img = request.args.get('dst_img')
-	mock_type = request.args.get('type')
+	#mock_type = request.args.get('type')
 	uuid_img = img_upload_dir + photo_uuid + ".jpg"
-	print uuid_img, dst_img, mock_type
-	if mock_type == 'baoman':
-		score = 100
-	elif mock_type == 'emoji':
-		score = 100
+	print uuid_img, dst_img
+	score = 100
 	return str(score)
 
 @app.route('/time')
