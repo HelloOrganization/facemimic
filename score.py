@@ -17,6 +17,7 @@ bench_list = pickle.load(bench_file)
 #      bench_file.close()
 
 def expression_sightcorp(pic):
+	print "here"
 	json_resp = requests.post( 'http://api.sightcorp.com/api/detect/',
               data   = { 'app_key'   : '4abab32a3d064bdb85810374b6c01d5f',
                          'client_id' : 'a54ed59cac2f4d169d1e6f6f555003df',
@@ -74,9 +75,12 @@ def expression_similarity_sightcorp(benchmark_index, user_pic):
 	#print pic1
 	#print pic2
 	global bench_list
-	#print "len",len(bench_list)
+	print "len",len(bench_list)
+	print bench_list[5]
 	json_resp1 = bench_list[benchmark_index-1]
+	print json_resp1
 	res1 = json.loads( json_resp1 )
+	print res1
 	json_resp2 = expression_sightcorp(user_pic)
 	res2 = json.loads( json_resp2 )
 
@@ -114,6 +118,7 @@ def getreview(score):
 		return "噗，好像没有检查到人脸啊……><"
 
 def calc_score(user_pic, dst_pic):
+	print user_pic, dst_pic
 	res = dst_pic.split('/')
 	dst_name = res[-1]
 	if dst_name[0] == 'e':
@@ -121,7 +126,8 @@ def calc_score(user_pic, dst_pic):
 		score = expression_sightcorp(int(tag), user_pic)
 	else:
 		benchmark_index = (dst_name.split('.'))[0]
-		score = expression_similarity_sightcorp(benchmark_index, user_pic)
+		print benchmark_index
+		score = expression_similarity_sightcorp(int(benchmark_index), user_pic)
 	return [score, sigmoid(score), getreview(score)]
 #print expression_emovu(0, PIC1)
 

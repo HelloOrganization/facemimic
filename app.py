@@ -65,10 +65,12 @@ def result():
 	global not_ajax
 	if not_ajax:
 		dst_img = request.args.get('dst_img')
+		print 'not_ajax', dst_img, photo_file.url
 		if use_local:
 			score_arr = calc_score(local_file_name, dst_img)
 		else:
 			score_arr = calc_score(photo_file.url, dst_img)
+		print 'ok'
 		resp = make_response(render_template("result.html", score=score_arr[0], percent=score_arr[1], review=score_arr[2]))
 		resp.set_cookie('ajax', '0')
 		return resp
