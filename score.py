@@ -26,7 +26,7 @@ def expression_score_sightcorp(tag, pic):
 	#print_result("sightcorp", json_resp)
 	if len(res['persons'])==0:
 		print 'no face detected'
-		return -1
+		return 0
 		
 	expressions = res['persons'][0]['expressions']
 	sum = 0.0
@@ -41,7 +41,7 @@ def expression_score_sightcorp(tag, pic):
 	elif tag == 3:
 		return float(100) * float((expressions['surprise']['value']+expressions['fear']['value']) / sum)
 	else:
-		return -1
+		return 0
 
 def get_dis(exp1, exp2):
 	sum1 = 0.0
@@ -71,7 +71,7 @@ def expression_similarity_sightcorp(pic1, pic2):
 	
 	if len(res2['persons'])==0:
 		print 'no face detected'
-		return -1
+		return 0
 	
 	expressions1 = res1['persons'][0]['expressions']
 	expressions2 = res2['persons'][0]['expressions']
