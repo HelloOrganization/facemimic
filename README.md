@@ -1,3 +1,4 @@
+screen -L -d -m -S facemimic python app.py
 # Python-getting-started
 
 一个简单的使用 Flask 的 Python 应用。
