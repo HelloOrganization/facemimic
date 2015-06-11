@@ -77,11 +77,12 @@ def result():
 		else:
 			score_arr = calc_score(photo_file.url, dst_img)
 		#print 'ok', score_arr
-		resp = make_response(render_template("result.html", score=score_arr[0], percent=score_arr[1], review=score_arr[2]))
+		resp = make_response(render_template("result.html", score=score_arr[0], percent=score_arr[1], review=score_arr[2], preview1=photo_file.url))
+		#resp.set_cookie('url', photo_file.url)
 		resp.set_cookie('ajax', '0')
 		return resp
 	else:
-		resp = make_response(render_template("result.html", score='?', percent='?', review='...'))
+		resp = make_response(render_template("result.html", score='?', percent='?', review='...', preview1=photo_file.url))
 		resp.set_cookie('ajax', '1')
 		resp.set_cookie('url', photo_file.url)
 		resp.set_cookie("uuid", photo_uuid)
