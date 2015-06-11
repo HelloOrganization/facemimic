@@ -7,9 +7,9 @@ from wsgiref import simple_server
 
 from app import app
 from cloud import engine
+import sys
 
-test = True
-if test:
+if len(sys.args) > 1:
 	APP_ID="wy1vhkf58knzywjpmny6r1pqbywmy3zxqo1qmj35mmaizd0z"
 	APP_KEY="10hyto051fgrtxib3uo5yie10s4da1jx500qjyk3qek24d0p"
 	MASTER_KEY="pye4tgaw8edmxlw7sct48xnb4r9h5lowdcufqokyug5cvy2q"

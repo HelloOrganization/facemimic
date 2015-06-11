@@ -70,5 +70,5 @@ if __name__ == '__main__':
 	APP_KEY="10hyto051fgrtxib3uo5yie10s4da1jx500qjyk3qek24d0p"
 	MASTER_KEY="pye4tgaw8edmxlw7sct48xnb4r9h5lowdcufqokyug5cvy2q"
 	leancloud.init(APP_ID, master_key=MASTER_KEY)
-	port = int(os.environ.get("PORT", 6100))
+	port = int(os.environ.get("PORT", 3100))
 	app.run(host='0.0.0.0', port=port)
