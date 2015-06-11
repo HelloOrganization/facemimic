@@ -8,7 +8,7 @@ from datetime import datetime
 
 from flask import Flask, request
 from flask import render_template, send_file, make_response, redirect
-
+import sys
 from views.todos import todos_view
 from score import calc_score
 
@@ -20,6 +20,9 @@ app = Flask(__name__)
 # 动态路由
 app.register_blueprint(todos_view, url_prefix='/todos')
 
+save_local = False
+if len(sys.argv) > 1 and sys.argv[1] == 'save_local':
+	save_local = True
 
 @app.route('/', methods=['GET'])
 def index():
@@ -37,28 +40,45 @@ def another():
 @app.route('/result', methods=['POST'])
 def result():
 	#print request.files
+	global save_local
 	photo = request.files['photo']
 	photo_uuid = str(uuid.uuid4())
 	print photo_uuid
-	local_file_name = img_upload_dir + photo_uuid + ".jpg"
-	photo.save(local_file_name)
-	#photoFile = leancloud.File('fileFromBuffer', buffer(photo))
-	local_file = open(local_file_name)
-	photo_file = leancloud.File(photo_uuid, local_file)
-	local_file.close()
+	content = photo.stream.read()
+	#print len(content)
+	photo_file = leancloud.File(photo_uuid, buffer(content))
 	photo_file.save()
+	print 'save leancloud'
+	print save_local
 	resp = make_response(render_template("result.html"))
-	resp.set_cookie("uuid", photo_uuid)
+	if save_local:
+		resp.set_cookie('avos', '0')
+		resp.set_cookie("uuid", photo_uuid)
+		local_file_name = img_upload_dir + photo_uuid + ".jpg"
+		dst = open(local_file_name, 'wb')
+		dst.write(content)
+		dst.close()
+		print 'save_local', local_file_name
+	else:
+		resp.set_cookie('avos', '1')
+		resp.set_cookie('url', photo_file.url)
+	print 'after save'
 	return resp
 
 @app.route('/calc')
 def calc():
-	photo_uuid = request.args.get('uuid')
+	use_avos = request.args.get('avos')
 	dst_img = request.args.get('dst_img')
-	#mock_type = request.args.get('type')
-	user_img = img_upload_dir + photo_uuid + ".jpg"
-	print user_img, dst_img
-	score = calc_score(user_img, dst_img)
+	print 'dst_img:', dst_img
+	if use_avos == '0':
+		photo_uuid = request.args.get('uuid')
+		user_img = img_upload_dir + photo_uuid + ".jpg"
+		print 'user_img:', user_img
+		score = calc_score(user_img, dst_img)
+	else:
+		user_url = request.args.get('url')
+		print 'user_url:', user_url
+		score = 100
 	return str(score)
 
 @app.route('/time')

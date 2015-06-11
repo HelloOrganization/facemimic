@@ -98,7 +98,14 @@
    		var imgobj =  document.getElementById("preview1")
    		imgobj.src = srcStr;//指定图片路径
    		$("#preview2").attr("src", $.cookie("dst_img"));
-		var url = '/calc?uuid=' + $.cookie("uuid") + "&dst_img=" + $.cookie("dst_img");
+
+   		var use_avos = $.cookie('avos');
+   		var url = null;
+   		if (use_avos == '0'){
+			url = '/calc?avos=0&dst_img=' + $.cookie("dst_img") + "&uuid=" + $.cookie("uuid");
+		} else {
+			url = '/calc?avos=1&dst_img=' + $.cookie("dst_img") + "&url=" + $.cookie("url");
+		}
 		console.log(url);
 		$.get(url, function(data, status) {
 			$('#score').text(data);
