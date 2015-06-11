@@ -10,6 +10,7 @@ from flask import Flask, request
 from flask import render_template, send_file, make_response, redirect
 
 from views.todos import todos_view
+from score import calc_score
 
 static_dir = 'static/'
 img_dir = 'static/img/'
@@ -57,7 +58,7 @@ def calc():
 	#mock_type = request.args.get('type')
 	user_img = img_upload_dir + photo_uuid + ".jpg"
 	print user_img, dst_img
-	score = 100
+	score = calc_score(user_img, dst_img)
 	return str(score)
 
 @app.route('/time')
