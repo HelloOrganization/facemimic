@@ -135,13 +135,13 @@
 		<img id="preview2" class="img-thumbnail" alt="" src="/static/img/black.png" style="background-color: #FFD306; border: #FFD306"/>
 		<!--onload="javascript:restoreImg(preview2,pic1);" onchange="javascript:restoreImg(preview2,pic1);" />-->
 	</div>
-	<button id="getpic" type="button" class="btn btn-info col-xs-10 col-xs-offset-1 col-lg-6" onclick='$.get("/another", function(data){console.log(data); $("#preview2").attr("src", data);});$("#uploadFileId").show(400);$("#getpic").html("换一个表情？");'>要模仿什么？</button>
+	<button id="getpic" type="button" class="btn btn-info col-xs-10 col-xs-offset-1 col-lg-6" onclick='$.get("/another", function(data){console.log(data); $("#preview2").attr("src", data); var askindex = data.indexOf("?"); $.cookie("dst_img", data.substr(0, askindex - 1 )); var equindex = data.indexOf("="); $.cookie("type", data.substr(equindex + 1));});$("#uploadFileId").show(400);$("#getpic").html("换一个表情？");'>要模仿什么？</button>
 
 	<button id="uploadFileId"style="display:none" class="btn btn-default col-xs-10 col-xs-offset-1" onclick=" document.getElementById('pic2').click(); $('#cal').show();">上传自己的模仿照片，尽量传神哦</button>
 
 	<div class="row">
 		<!-- 这里我随便也了个跳转，表单传了两个input：一个file一个text。-->
-		<form action="/result" role="form" method="Post" enctype="multipart/form-data">
+		<form action="/result" role="form" method="Post" enctype="multipart/form-data" id="calc_score">
 			<div class="" id="localImag" style="text-align: center; background-color: #FFD306;">
 				<img id="preview" alt="" style="background-color: #FFD306; border: #FFD306" class="img-thumbnail col-md-6 col-md-offset-3"/>
 			</div>
@@ -178,7 +178,6 @@
 		imgContext.drawImage(preview, 0, 0, imgCanvas.width, imgCanvas.height);
 		// 用data url的形式取出
 		var imgAsDataURL = imgCanvas.toDataURL("image/png");
-				alert(imgAsDataURL)
 		// 保存到本地存储中
 		try {
 			localStorage.setItem("test", imgAsDataURL);
@@ -193,6 +192,7 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="static/js/jquery.cookie.js"></script>
 
 </body>
 </html>

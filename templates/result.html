@@ -1,7 +1,8 @@
+
 <!DOCTYPE html>
 <html lang="zh-cn">
   <head>
-    <meta charset="gb2312">
+    <meta charset="utf8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Marvelous Imitator of facial expressions!!</title>
@@ -15,17 +16,6 @@
       <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 	
-	
-	 <script type="text/javascript">
-	 <!--
-		function getsrc(key){
-   			var srcStr = localStorage.getItem(key);//获取本地存储的元素
-   			var imgobj =  document.getElementById("preview2")
-   			imgobj.src = srcStr;//指定图片路径
-   			//document.body.appendChild(imgobj);//在页面中添加元素
-  		}
-	 -->
-	 </script>
   </head>
   
   
@@ -42,14 +32,15 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			  </button>
-			  <a class="navbar-brand" href="lala.html" ><strong>¹ØÓÚÎÒÃÇ</strong></a>
+
+			  <a class="navbar-brand" href="lala.html" ><strong>关于我们</strong></a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 			 <ul class="nav navbar-nav">
-				<li><a href="#">·ÖÏíµ½XXX</a></li>
-				<li><a href="#">·ÖÏíµ½XXX</a></li>
-				<li><a href="#">¸´ÖÆÁ´½Ó</a></li>
-				<li><a href="#">¼ÓÈëÊÕ²Ø</a></li>
+				<li><a href="#">分享到XXX</a></li>
+				<li><a href="#">分享到XXX</a></li>
+				<li><a href="#">复制链接</a></li>
+				<li><a href="#">加入收藏</a></li>
 			  </ul>
 			</div>
 		</div>
@@ -57,41 +48,39 @@
 	
 	
 		<div class="container">
-			<h2>ÎÒµÄÄ£·ÂÖ¸ÊýÊÇ£º<span class="label label-primary">15</span></h2>
-			<h4>×¨¼ÒµãÆÀ£º</h4>
-			<p>»¹Ðè¼ÌÐøÅ¬Á¦Ó´~½Ú²ÙÊ²Ã´µÄ¾Í²»ÒªÌ«ÔÚÒâÁË¡£</p>
+			<h2>我的模仿指数是：<span id='score' class="label label-primary">15</span></h2>
+			<h4>专家点评：</h4>
+			<p>还需继续努力哟~节操什么的就不要太在意了。</p>
 			<div class="row">
 				<div class="form-group col-md-6">
 				
 					<div class="">
-						<label for="subtitle2">ÎÒµÄ±íÇé:</label>
-						
+						<label for="subtitle2">我的表情:</label>				
 					</div>
 					<a href="#"  class="thumbnail">
 						
 						 <div id="localImag1" >  
-							<img id="preview1" alt="" class="img-thumbnail" src="1.jpg"/>  
+							<img id="preview1" alt="" class="img-thumbnail" />  
 						</div> 
 					</a>
 				</div>
 				<div class="form-group col-md-6">
 					<div class="">
-						<label for="subtitle2">ÎÒËùÄ£·ÂµÄ±íÇé:</label>
-						
+						<label for="subtitle2">我所模仿的表情:</label>						
 					</div>
 					<a href="#" class="thumbnail">
 						
 						<div id="localImag2" >  
-							<img id="preview2" class="img-thumbnail"alt="" src="2.jpg" onload="getsrc('test')")"/>  
+							<img id="preview2" alt="" class="img-thumbnail"  />  
 						</div> 
 					</a>
 				</div>
 			</div>
 			<div class="row" style="text-align: center">
-				<a href="index.html" style="margin: auto" class="btn btn-lg btn-danger">ÔÙÔÙ¡­¡­ÔÙÀ´Ò»´Î£¡¡®(*>©n<*)¡ä</a>
+				<a href="/" style="margin: auto" class="btn btn-lg btn-danger">再再……再来一次！‘(*>﹏<*)′</a>
 			</div>
 		</div>
-	</br></br></br>
+	<br/><br/><br/>
    <nav class="navbar navbar-fixed-bottom navbar-inverse">
         <span class="navbar-text"style="font-family:Palatino Linotype">Designed by Qingying Chen, Yiqun Ouyang, Minxing Liu, Yangqingwei Shi, Peking University.</span>
     </nav>
@@ -99,9 +88,23 @@
     <!--script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script-->
 	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-   <!-- ×îÐÂµÄ Bootstrap ºËÐÄ JavaScript ÎÄ¼þ -->
+   <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 	<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-	
+	<script type="text/javascript" src="static/js/jquery.cookie.js"></script>
+
+	<script type="text/javascript">
+		var srcStr = localStorage.getItem('test');//获取本地存储的元素
+   		var imgobj =  document.getElementById("preview2")
+   		imgobj.src = srcStr;//指定图片路径
+		var url = '/calc?uuid=' + $.cookie("uuid") + "&dst_img=" + $.cookie("dst_img") + "&type=" + $.cookie("type");
+		$.get(url, function(data, status) {
+			$('#score').text(data);
+		});
+
+		
+   		
+   			//document.body.appendChild(imgobj);//在页面中添加元素
+	</script>
    </body>
 </html>

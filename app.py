@@ -50,6 +50,19 @@ def result():
 	resp.set_cookie("uuid", photo_uuid)
 	return resp
 
+@app.route('/calc')
+def calc():
+	photo_uuid = request.args.get('uuid')
+	dst_img = request.args.get('dst_img')
+	mock_type = request.args.get('type')
+	uuid_img = img_upload_dir + photo_uuid + ".jpg"
+	print uuid_img, dst_img, mock_type
+	if mock_type == 'baoman':
+		score = 100
+	elif mock_type == 'emoji':
+		score = 100
+	return str(score)
+
 @app.route('/time')
 def time():
     return str(datetime.now())
