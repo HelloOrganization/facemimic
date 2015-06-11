@@ -11,7 +11,7 @@ from flask import render_template, send_file, make_response, redirect
 import sys
 from views.todos import todos_view
 from score import calc_score
-
+DEBUG = True
 static_dir = 'static/'
 img_dir = 'static/img/'
 img_upload_dir = 'static/img/upload/'
