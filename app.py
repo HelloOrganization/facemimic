@@ -12,7 +12,7 @@ from flask import render_template, send_file, make_response, redirect
 from views.todos import todos_view
 
 static_dir = 'static/'
-img_dir = 'static/img/baoman/'
+img_dir = 'static/img/'
 img_upload_dir = 'static/img/upload/'
 
 app = Flask(__name__)
@@ -55,8 +55,8 @@ def calc():
 	photo_uuid = request.args.get('uuid')
 	dst_img = request.args.get('dst_img')
 	#mock_type = request.args.get('type')
-	uuid_img = img_upload_dir + photo_uuid + ".jpg"
-	print uuid_img, dst_img
+	user_img = img_upload_dir + photo_uuid + ".jpg"
+	print user_img, dst_img
 	score = 100
 	return str(score)
 
