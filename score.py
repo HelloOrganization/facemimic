@@ -45,9 +45,9 @@ def expression_score_sightcorp(tag, pic):
 	json_resp = expression_sightcorp_file(pic)
 	res = json.loads( json_resp )
 	#print_result("sightcorp", json_resp)
-	if len(res2)==2:
+	if len(res)==2:
 		print 'sorry, error occured'
-		return 
+		return -1
 
 	if len(res['persons'])==0:
 		print 'no face detected'
@@ -96,8 +96,8 @@ def expression_similarity_sightcorp(benchmark_index, user_pic):
 
 	if len(res2)==2:
 		print 'sorry, error occured'
-		return 
-
+		return -1
+		
 	if len(res2['persons'])==0:
 		print 'no face detected'
 		return 0
@@ -136,6 +136,7 @@ def compress(user_pic):
 	if max(ori_h,ori_w) >= 1000:
 		ratio = 1000.0/max(ori_h,ori_w)
 		new_img = user_img.resize((int(ori_w*ratio), int(ori_h*ratio)))
+		new_img.rotate(90)
 		new_user_pic = user_pic + ".min.jpg"
 		new_img.save(new_user_pic)
 		return new_user_pic
@@ -143,17 +144,17 @@ def compress(user_pic):
 
 def calc_score(user_pic, dst_pic):
 	#print user_pic, dst_pic
-	user_pic_c = compress(user_pic)
+	#user_pic = compress(user_pic)
 	res = dst_pic.split('/')
 	dst_name = res[-1]
 	if dst_name[0] == 'e':
 		tag = dst_name[2]
-		score = expression_score_sightcorp(int(tag), user_pic_c)
+		score = expression_score_sightcorp(int(tag), user_pic)
 	else:
 		benchmark_index = (dst_name.split('.'))[0]
 		#print benchmark_index
-		score = expression_similarity_sightcorp(int(benchmark_index), user_pic_c)
-	return [score, get_per(score), getreview(score)]
+		score = expression_similarity_sightcorp(int(benchmark_index), user_pic)
+	return [int(score), get_per(score), getreview(score)]
 #print expression_emovu(0, PIC1)
 
 # print expression_similarity_sightcorp(1, "static/img/benchmark/1.jpg")
