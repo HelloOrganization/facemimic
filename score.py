@@ -8,6 +8,7 @@ import math
 import random
 import time
 import pickle
+from PIL import Image
 	
 bench_file = open('static/txt/bench.pkl', 'rb')
 bench_list = pickle.load(bench_file)
@@ -44,6 +45,7 @@ def expression_score_sightcorp(tag, pic):
 	json_resp = expression_sightcorp_file(pic)
 	res = json.loads( json_resp )
 	#print_result("sightcorp", json_resp)
+	
 	if len(res['persons'])==0:
 		print 'no face detected'
 		return 0
@@ -89,7 +91,10 @@ def expression_similarity_sightcorp(benchmark_index, user_pic):
 	json_resp2 = expression_sightcorp_file(user_pic)
 	res2 = json.loads( json_resp2 )
 
-	
+	if len(res2)==2:
+		print 'sorry, error occured'
+		return 
+
 	if len(res2['persons'])==0:
 		print 'no face detected'
 		return 0
@@ -103,8 +108,8 @@ def expression_similarity_sightcorp(benchmark_index, user_pic):
 
 #score1 = metric_similarity(PIC1, PIC2)
 #print score1
-def sigmoid(score):
-	return int(100/(1+math.exp(-score+50)))
+def get_per(score):
+	return 100*int(math.sqrt(score/100))
 
 def getreview(score):
 	if score >= 95 and score <= 100:
@@ -122,8 +127,17 @@ def getreview(score):
 	else:
 		return "噗，好像没有检查到人脸啊……><"
 
+def compress(user_pic):
+	user_img = Image.open(user_pic)
+	ori_w,ori_h = user_img.size
+	if max(ori_h,ori_w) >= 1000:
+		ratio = 1000/max(ori_h,ori_w)
+		new_img = user_img.resize(ori_w*ratio,ori_h*ratio) 
+		new_img.save(user_pic)
+
 def calc_score(user_pic, dst_pic):
 	#print user_pic, dst_pic
+	compress(user_pic)
 	res = dst_pic.split('/')
 	dst_name = res[-1]
 	if dst_name[0] == 'e':
@@ -133,7 +147,7 @@ def calc_score(user_pic, dst_pic):
 		benchmark_index = (dst_name.split('.'))[0]
 		#print benchmark_index
 		score = expression_similarity_sightcorp(int(benchmark_index), user_pic)
-	return [score, sigmoid(score), getreview(score)]
+	return [score, norm(score), getreview(score)]
 #print expression_emovu(0, PIC1)
 
 # print expression_similarity_sightcorp(1, "static/img/benchmark/1.jpg")
