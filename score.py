@@ -68,6 +68,8 @@ def expression_similarity_sightcorp(pic1, pic2):
 	res1 = json.loads( json_resp1 )
 	json_resp2 = expression_sightcorp(pic2)
 	res2 = json.loads( json_resp2 )
+	print res1
+	print res2
 	
 	if len(res2['persons'])==0:
 		print 'no face detected'
