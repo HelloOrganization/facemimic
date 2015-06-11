@@ -98,8 +98,11 @@
    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 	<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="static/js/jquery.cookie.js"></script>
+
 	<script type="text/javascript">
-		$.get("/calc?" + document.cookie, function(data, status) {
+		var url = '/calc?uuid=' + $.cookie("uuid") + "&dst_img=" + $.cookie("dst_img") + "&type=" + $.cookie("type");
+		$.get(url, function(data, status) {
 			$('#score').text(data);
 		});
 	</script>
