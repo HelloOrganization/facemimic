@@ -3,20 +3,29 @@
 # $File: score.py
 
 import requests
-#import unirest
 import json
 import math
 import random
+import time
+import pickle
 	
+bench_file = open('static/txt/bench.pkl', 'rb')
+bench_list = pickle.load(bench_file)
+# try:
+#      bench_str = bench_file.read()
+# finally:
+#      bench_file.close()
+
 def expression_sightcorp(pic):
 	json_resp = requests.post( 'http://api.sightcorp.com/api/detect/',
               data   = { 'app_key'   : '4abab32a3d064bdb85810374b6c01d5f',
                          'client_id' : 'a54ed59cac2f4d169d1e6f6f555003df',
 						 'attribute' : 'expressions',
-						 'max_persons': 1		},
+						 'max_persons': 1},		
+						 #'url'	: pic},
               files  = { 'img'       : ( 'filename', open( pic, 'rb' ) ) }, 
 			   )
-	#print "sightcorp : ", json_resp.text
+	print json_resp.text
 	return json_resp.text
 	
 def expression_score_sightcorp(tag, pic):
@@ -61,15 +70,16 @@ def get_dis(exp1, exp2):
 	dis = math.sqrt(dis)
 	return dis
 	
-def expression_similarity_sightcorp(pic1, pic2):	
+def expression_similarity_sightcorp(benchmark_index, user_pic):	
 	#print pic1
 	#print pic2
-	json_resp1 = expression_sightcorp(pic1)
+	global bench_list
+	#print "len",len(bench_list)
+	json_resp1 = bench_list[benchmark_index-1]
 	res1 = json.loads( json_resp1 )
-	json_resp2 = expression_sightcorp(pic2)
+	json_resp2 = expression_sightcorp(user_pic)
 	res2 = json.loads( json_resp2 )
-	print res1
-	print res2
+
 	
 	if len(res2['persons'])==0:
 		print 'no face detected'
@@ -84,6 +94,25 @@ def expression_similarity_sightcorp(pic1, pic2):
 
 #score1 = metric_similarity(PIC1, PIC2)
 #print score1
+def sigmoid(score):
+	return int(100/(1+math.exp(-score+50)))
+
+def getreview(score):
+	if score >= 95 and score <= 100:
+		return "你对面部动作、眼神、情绪的把握已经臻于化境！天哪，我还以为你是这些表情的原型，而不是它们的模仿！"
+	elif score >= 85 and score <= 94:
+		return "非……非常好，就是这种感觉！令人潸然泪下的感人模仿！请务必分享到朋友圈让大家看看……"
+	elif score >= 75 and score <= 84:
+		return "出人意料的良好表现！这次模仿令我印象深刻，我会记住你的。"
+	elif score >= 60 and score <= 74:
+		return "哎唷不错~我觉得已经很像了！不过如果你觉得你的技艺不止于此的话，那么请继续前进吧！"
+	elif score >=40 and score <= 59:
+		return "想象一下图中的人物是怀着何等心情做出这样的表情的，他又遇到了什么样的夸张事情，然后再假象自己置身其中，体会同样的情绪，最后大胆地表现出来！你一定可以的！再来一次吧~"
+	elif score >=1 and score <= 39:
+		return "呀！模仿还需继续努力哦~再来一次吧！或者分享到朋友圈让他人评点！节操什么的就不要太在意啦。"
+	else:
+		return "噗，好像没有检查到人脸啊……><"
+
 def calc_score(user_pic, dst_pic):
 	res = dst_pic.split('/')
 	dst_name = res[-1]
@@ -91,7 +120,17 @@ def calc_score(user_pic, dst_pic):
 		tag = dst_name[2]
 		score = expression_sightcorp(int(tag), user_pic)
 	else:
-		benchmark_pic = res[0]+'/'+res[1]+'/benchmark/'+res[2]
-		score = expression_similarity_sightcorp(benchmark_pic, user_pic)
-	return score
+		benchmark_index = (dst_name.split('.'))[0]
+		score = expression_similarity_sightcorp(benchmark_index, user_pic)
+	return [score, sigmoid(score), getreview(score)]
 #print expression_emovu(0, PIC1)
+
+# print expression_similarity_sightcorp(1, "static/img/benchmark/1.jpg")
+# bench = []
+# path = "static/img/benchmark/"
+# for i in range(1, 24):
+# 	bench.append(expression_sightcorp(path+str(i)+'.jpg'))
+# 	time.sleep(1)
+
+# pickle.dump(bench,bench_file)
+# bench_file.close()
