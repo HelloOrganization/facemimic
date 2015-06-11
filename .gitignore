@@ -65,3 +65,4 @@ static/img/upload/*.jpg
 static/img/upload/*.png
 
 *~
+.fuse_hidden*
