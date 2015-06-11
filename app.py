@@ -20,12 +20,14 @@ app = Flask(__name__)
 # 动态路由
 app.register_blueprint(todos_view, url_prefix='/todos')
 
+
+not_ajax = False
+if len(sys.argv) > 1 and sys.argv[1] == 'not_ajax':
+	not_ajax = True
+
 use_local = False
-if len(sys.argv) > 1 and sys.argv[1] == 'use_local':
+if len(sys.argv) > 2 and sys.argv[2] == 'use_local':
 	use_local = True
-not_ajax = True
-if len(sys.argv) > 2 and sys.argv[2] == 'not_ajax':
-	not_ajax = False
 
 @app.route('/', methods=['GET'])
 def index():
