@@ -135,9 +135,9 @@
 		<img id="preview2" class="img-thumbnail" alt="" src="/static/img/black.png" style="background-color: #FFD306; border: #FFD306"/>
 		<!--onload="javascript:restoreImg(preview2,pic1);" onchange="javascript:restoreImg(preview2,pic1);" />-->
 	</div>
-	<button id="getpic" type="button" class="btn btn-info col-xs-8 col-xs-offset-2 col-lg-6" onclick='$.get("/another", function(data){console.log(data); $("#preview2").attr("src", data); var askindex = data.indexOf("?"); $.cookie("dst_img", data.substr(0, askindex - 1 )); var equindex = data.indexOf("="); $.cookie("type", data.substr(equindex + 1));});$("#uploadFileId").show(400);$("#getpic").html("换一个表情？");'>要模仿什么？</button>
+	<button id="getpic" type="button" class="btn btn-info col-xs-10 col-xs-offset-1 col-lg-6" onclick='$.get("/another", function(data){console.log(data); $("#preview2").attr("src", data); var askindex = data.indexOf("?"); $.cookie("dst_img", data.substr(0, askindex - 1 )); var equindex = data.indexOf("="); $.cookie("type", data.substr(equindex + 1));});$("#uploadFileId").show(400);$("#getpic").html("换一个表情？");'>要模仿什么？</button>
 
-	<button id="uploadFileId"style="display:none" class="btn btn-default col-xs-8 col-xs-offset-2" onclick=" document.getElementById('pic2').click(); $('#cal').show();">上传自己的模仿照片，尽量传神哦</button>
+	<button id="uploadFileId"style="display:none" class="btn btn-default col-xs-10 col-xs-offset-1" onclick=" document.getElementById('pic2').click(); $('#cal').show();">上传自己的模仿照片，尽量传神哦</button>
 
 	<div class="row">
 		<!-- 这里我随便也了个跳转，表单传了两个input：一个file一个text。-->
@@ -145,7 +145,7 @@
 			<div class="" id="localImag" style="text-align: center; background-color: #FFD306;">
 				<img id="preview" alt="" style="background-color: #FFD306; border: #FFD306" class="img-thumbnail col-md-6 col-md-offset-3"/>
 			</div>
-			<div id="cal" class="row" style="text-align: center;display:none">
+			<div id="cal" class="row" style="text-align:center;display:none">
 				<button type="submit" style="margin: auto" class="btn-lg btn-danger">计算我的模仿指数(╯°Д°)╯</button>
 			</div>
 
