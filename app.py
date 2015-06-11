@@ -23,6 +23,9 @@ app.register_blueprint(todos_view, url_prefix='/todos')
 use_local = False
 if len(sys.argv) > 1 and sys.argv[1] == 'use_local':
 	use_local = True
+not_ajax = True
+if len(sys.argv) > 2 and sys.argv[2] == 'not_ajax':
+	not_ajax = False
 
 @app.route('/', methods=['GET'])
 def index():
@@ -50,17 +53,29 @@ def result():
 	photo_file.save()
 	print 'save leancloud'
 	print use_local
-	resp = make_response(render_template("result.html"))
-	resp.set_cookie('url', photo_file.url)
 	if use_local:
-		resp.set_cookie("uuid", photo_uuid)
 		local_file_name = img_upload_dir + photo_uuid + ".jpg"
 		dst = open(local_file_name, 'wb')
 		dst.write(content)
 		dst.close()
 		print 'use_local', local_file_name
 	print 'after save'
-	return resp
+	global not_ajax
+	if not_ajax:
+		dst_img = request.args.get('dst_img')
+		if use_local:
+			score_arr = calc_score(local_file_name, dst_img)
+		else:
+			score_arr = calc_score(photo_file.url, dst_img)
+		resp = make_response(render_template("result.html", score=score_arr[0], percent=score_arr[1], review=score_arr[2]))
+		resp.set_cookie('ajax', '0')
+		return resp
+	else:
+		resp = make_response(render_template("result.html", score='?', percent='?', review='...'))
+		resp.set_cookie('ajax', '1')
+		resp.set_cookie('url', photo_file.url)
+		resp.set_cookie("uuid", photo_uuid)
+		return resp
 
 @app.route('/calc')
 def calc():
@@ -71,12 +86,12 @@ def calc():
 		photo_uuid = request.args.get('uuid')
 		user_img = img_upload_dir + photo_uuid + ".jpg"
 		print 'user_img:', user_img
-		score = calc_score(user_img, dst_img)
+		score_arr = calc_score(user_img, dst_img)
 	else:
 		user_url = request.args.get('url')
 		print 'user_url:', user_url
-		score = calc_score(user_url, dst_img)
-	return str(score)
+		score_arr = calc_score(user_url, dst_img)
+	return str(score_arr)
 
 @app.route('/time')
 def time():

@@ -48,9 +48,10 @@
 	
 	
 		<div class="container">
-			<h2>我的模仿指数是：<span id='score' class="label label-primary">?</span></h2>
+			<h2>我的模仿指数是：<span id='score' class="label label-primary">{{score}}</span></h2>
+			<h3>over <span id="percent">{{percent}}</span>
 			<h4>专家点评：</h4>
-			<p id="review">还需继续努力哟~节操什么的就不要太在意了。</p>
+			<p id="review">{{review}}</p>
 			<div class="row">
 				<div class="form-group col-md-6">
 				
@@ -99,18 +100,21 @@
    		imgobj.src = srcStr;//指定图片路径
    		$("#preview2").attr("src", $.cookie("dst_img"));
 
-   		var use_avos = $.cookie('avos');
-   		var url = '/calc?avos=1&dst_img=' + $.cookie("dst_img") + "&url=" +$.cookie("url");
-   		if ($.cookie('uuid')){
-			url +=  "&uuid=" + $.cookie('uuid');
-		} 
-		console.log(url);
-		$.get(url, function(data, status) {
-			var parsedData = JSON.parse(data.replace(/'/g, '"'));
-			$('#score').text(parsedData[0]);
-			$('#percent').text(parsedData[1]);
-			$('#review').text(parsedData[2]);
-		});
+   		if ($.cookie('ajax') == '1'){
+   			console.log('use ajax');
+	   		var url = '/calc?dst_img=' + $.cookie("dst_img") + "&url=" +$.cookie("url");
+	   		if ($.cookie('uuid')){
+				url +=  "&uuid=" + $.cookie('uuid');
+			} 
+			console.log(url);
+			$.get(url, function(data, status) {
+				console.log(data);
+				var parsedData = JSON.parse(data.replace(/'/g, '"'));
+				$('#score').text(parsedData[0]);
+				$('#percent').text(parsedData[1]);
+				$('#review').text(parsedData[2]);
+			});
+		}
   		
    			//document.body.appendChild(imgobj);//在页面中添加元素
 	</script>
