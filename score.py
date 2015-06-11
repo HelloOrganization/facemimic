@@ -89,7 +89,7 @@ def calc_score(user_pic, dst_pic):
 		tag = dst_name[2]
 		score = expression_sightcorp(int(tag), user_pic)
 	else:
-		benchmark_pic = res[0]+res[1]+'benchmark/'+res[2]
+		benchmark_pic = res[0]+'/'+res[1]+'/benchmark/'+res[2]
 		score = expression_similarity_sightcorp(benchmark_pic, user_pic)
 	return score
 #print expression_emovu(0, PIC1)
