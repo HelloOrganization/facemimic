@@ -20,9 +20,9 @@ app = Flask(__name__)
 # 动态路由
 app.register_blueprint(todos_view, url_prefix='/todos')
 
-save_local = False
-if len(sys.argv) > 1 and sys.argv[1] == 'save_local':
-	save_local = True
+use_local = False
+if len(sys.argv) > 1 and sys.argv[1] == 'use_local':
+	use_local = True
 
 @app.route('/', methods=['GET'])
 def index():
@@ -40,7 +40,7 @@ def another():
 @app.route('/result', methods=['POST'])
 def result():
 	#print request.files
-	global save_local
+	global use_local
 	photo = request.files['photo']
 	photo_uuid = str(uuid.uuid4())
 	print photo_uuid
@@ -49,28 +49,25 @@ def result():
 	photo_file = leancloud.File(photo_uuid, buffer(content))
 	photo_file.save()
 	print 'save leancloud'
-	print save_local
+	print use_local
 	resp = make_response(render_template("result.html"))
-	if save_local:
-		resp.set_cookie('avos', '0')
+	resp.set_cookie('url', photo_file.url)
+	if use_local:
 		resp.set_cookie("uuid", photo_uuid)
 		local_file_name = img_upload_dir + photo_uuid + ".jpg"
 		dst = open(local_file_name, 'wb')
 		dst.write(content)
 		dst.close()
-		print 'save_local', local_file_name
-	else:
-		resp.set_cookie('avos', '1')
-		resp.set_cookie('url', photo_file.url)
+		print 'use_local', local_file_name
 	print 'after save'
 	return resp
 
 @app.route('/calc')
 def calc():
-	use_avos = request.args.get('avos')
+	global use_local
 	dst_img = request.args.get('dst_img')
 	print 'dst_img:', dst_img
-	if use_avos == '0':
+	if use_local:
 		photo_uuid = request.args.get('uuid')
 		user_img = img_upload_dir + photo_uuid + ".jpg"
 		print 'user_img:', user_img
@@ -78,7 +75,7 @@ def calc():
 	else:
 		user_url = request.args.get('url')
 		print 'user_url:', user_url
-		score = 100
+		score = calc_score(user_url, dst_img)
 	return str(score)
 
 @app.route('/time')
