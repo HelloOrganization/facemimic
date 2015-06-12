@@ -115,9 +115,11 @@
 			$.get(url, function(data, status) {
 				console.log(data);
 				var parsedData = JSON.parse(data.replace(/'/g, '"'));
+				console.log(parsedData);
 				$('#score').text(parsedData[0]);
 				$('#percent').text(parsedData[1]);
 				$('#review').text(parsedData[2]);
+				console.log('end');
 			});
 		}
   		

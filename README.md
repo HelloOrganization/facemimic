@@ -1,4 +1,4 @@
-screen -L -d -m -S facemimic python app.py not_ajax use_local
+screen -L -d -m -S facemimic python app.py not_ajax use_local 4100
 # Python-getting-started
 
 一个简单的使用 Flask 的 Python 应用。
