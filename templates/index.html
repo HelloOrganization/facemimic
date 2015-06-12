@@ -156,7 +156,7 @@
 		<!-- 这里我随便也了个跳转，表单传了两个input：一个file一个text。-->
 		<form action="/result" role="form" method="Post" enctype="multipart/form-data" id="calc_score">
 			<div class="" id="localImag" style="text-align: center; background-color: #FFD306;">
-				<img id="preview" alt="" style="background-color: #FFD306; border: #FFD306" class="img-thumbnail col-md-6 col-md-offset-3"/>
+				<img id="preview" alt="" style="background-color: #FFD306; border: #FFD306; display:none" class="img-thumbnail col-md-6 col-md-offset-3 "/>
 			</div>
 			<div id="cal" class="row" style="text-align:center;display:none">
 				<button type="submit" style="margin: auto" class="btn-lg btn-danger" onclick='$("#localImag").hide();$("#calc_score").attr("action", "/result?dst_img="+$.cookie("dst_img"));return true;'>计算我的模仿指数(╯°Д°)╯</button>
