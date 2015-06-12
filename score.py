@@ -112,7 +112,7 @@ def expression_similarity_sightcorp(benchmark_index, user_pic):
 #score1 = metric_similarity(PIC1, PIC2)
 #print score1
 def get_per(score):
-	return int(100*math.sqrt(float(score)/100))
+	return int(100*(float(score)/100)**2)
 
 def getreview(score):
 	if score >= 95 and score <= 100:
