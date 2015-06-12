@@ -63,7 +63,7 @@
 					<a href="#"  class="thumbnail">
 						
 						 <div id="localImag1" >  
-							<img id="preview1" alt="" class="img-thumbnail" />  
+							<img id="preview1" alt="" class="img-thumbnail col-md-6 col-md-offset-3" src="{{preview1}}"/>  
 						</div> 
 					</a>
 				</div>
@@ -99,9 +99,10 @@
 	<script type="text/javascript" src="static/js/jquery.cookie.js"></script>
 
 	<script type="text/javascript">
-		var srcStr = localStorage.getItem('test');//获取本地存储的元素
+		/*var srcStr = localStorage.getItem('test');//获取本地存储的元素
    		var imgobj =  document.getElementById("preview1")
-   		imgobj.src = srcStr;//指定图片路径
+   		imgobj.src = $.cookie('url');//指定图片路径
+   		console.log($.cookie('url'));*/
    		$("#preview2").attr("src", $.cookie("dst_img"));
 
    		if ($.cookie('ajax') == '1'){
