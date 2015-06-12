@@ -137,7 +137,9 @@ def getreview(score):
 		return 6
 		return "咦？0分？不要惊慌，可能是我们没有在照片中检测到人脸，也可能是拍摄姿势不对，记住要拿起手机竖着拍摄哦！不如再来一次！"
 
-def compress(user_pic):
+def compress(user_pic, platform):
+	if platform == 'a':
+		return user_pic
 	user_img = Image.open(user_pic)
 	new_img = user_img.transpose(Image.ROTATE_270) 
 	new_user_pic = user_pic + ".min.jpg"

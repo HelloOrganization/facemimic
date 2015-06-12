@@ -62,12 +62,15 @@ def another():
 threads = {}
 scores = {}
 
-def calc_thread(dst_img, photo_uuid, lean_score):
+def calc_thread(dst_img, photo_uuid, lean_score, platform):
 	global scores
 	global use_local
 	score_arr = [0, 0, 0]
 	if use_local:
-		user_img = img_upload_dir + photo_uuid + ".jpg"
+		if platform == 'i':
+			user_img = img_upload_dir + photo_uuid + ".jpg.min.jpg"
+		else:
+			user_img = img_upload_dir + photo_uuid + ".jpg"
 		print 'user_img thr:', user_img
 		score_arr = calc_score(user_img, dst_img)
 	lean_score.set('score', score_arr[0])
@@ -94,7 +97,8 @@ def result():
 	dst.write(content)
 	dst.close()
 	print 'use_local', local_file_name
-	new_local_file_name = compress(local_file_name)
+	platform = request.cookies.get('platform')
+	new_local_file_name = compress(local_file_name, platform)
 	new_local_file = open(new_local_file_name)
 	photo_file = leancloud.File(photo_uuid, new_local_file)
 	new_local_file.close()
@@ -125,7 +129,7 @@ def share():
 		score.increment('page_view', 1)
 		score_arr = [score.get('score'), score.get('percent'), score.get('review')]
 		score.save()
-		resp = make_response(render_template("result.html", score=score_arr[0], percent=score_arr[1], review=score_arr[2], preview1=user_url, preview2=dst_img))
+		resp = make_response(render_template("result.html", score=score_arr[0], percent=score_arr[1], review=score_arr[2], preview1=user_url, preview2=dst_img,btnInfo='我也要模仿'))
 		#resp.set_cookie('url', photo_file.url)
 		resp.set_cookie('ajax', '0')
 		return resp
@@ -142,15 +146,16 @@ def share():
 		#print 'ok', score_arr
 		score.increment('page_view', 1)
 		score.save()
-		resp = make_response(render_template("result.html", score=score_arr[0], percent=score_arr[1], review=score_arr[2], preview1=user_url, preview2=dst_img))
+		resp = make_response(render_template("result.html", score=score_arr[0], percent=score_arr[1], review=score_arr[2], preview1=user_url, preview2=dst_img, btnInfo='再再……再来一次！‘(*>﹏<*)′'))
 		#resp.set_cookie('url', photo_file.url)
 		resp.set_cookie('ajax', '0')
 		return resp
 	else:
-		t = threading.Thread(target=calc_thread, args=(dst_img, photo_uuid, score))
+		platform = request.cookies.get('platform')
+		t = threading.Thread(target=calc_thread, args=(dst_img, photo_uuid, score, platform))
 		t.start()
 		threads[photo_uuid] = t
-		resp = make_response(render_template("result.html", score='?', percent='?', review='7', preview1=user_url, preview2=dst_img))
+		resp = make_response(render_template("result.html", score='?', percent='?', review='7', preview1=user_url, preview2=dst_img, btnInfo='再再……再来一次！‘(*>﹏<*)′'))
 		resp.set_cookie('ajax', '1')
 		resp.set_cookie("uuid", photo_uuid)
 		return resp
