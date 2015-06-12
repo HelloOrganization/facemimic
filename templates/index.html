@@ -4,6 +4,12 @@
 	<meta charset="utf8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+
+	<!-- uc强制竖屏 -->
+	<meta name="screen-orientation" content="portrait">
+	<!-- QQ强制竖屏 -->
+	<meta name="x5-orientation" content="portrait">
 	<title>Marvelous Imitator of facial expressions!!</title>
 	<!-- Bootstrap -->
 	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -36,6 +42,12 @@
 		$(document).ready(function(){
 			  $("#uploadFileId").click(function(){
 				$("#cal").show(400);
+				$("#localImag").show();
+			});
+		});
+		$(document).ready(function(){
+			  $("#cal").click(function(){
+				$("#localImag").hide();
 			});
 		});
 	</script>
@@ -100,6 +112,8 @@
 					<p>步骤二：感觉不是很对？那么换一个来模仿吧！</p>
 					<p>步骤三：记下这个表情的精髓！然后默默准备好表情，越像越传神越好~</p>
 					<p>步骤四：拍照或者上传你的模仿秀照片~来看看你的“模仿指数”是多少吧~</p>
+					<p><strong>无奈的提示1：拍照时请保持竖着拍哦！有时无法识别不是因为颜艺糟糕而是方向不对~。~</strong></p>
+					<p><strong>无奈的提示2：Android版微信似乎并不能很好地支持文件上传……Android的朋友们可能需要通过外部浏览器打开访问了</strong></p>
 					<p>下面是样例哟：</p>
 					<img id="example" class="img-thumbnail" alt="" src="/static/img/help/example.jpg"/>
 
@@ -136,16 +150,16 @@
 	</div>
 	<button id="getpic" type="button" class="btn btn-info col-xs-10 col-xs-offset-1 col-lg-6" onclick='$.get("/another", function(data){console.log(data); $("#preview2").attr("src", data); $.cookie("dst_img", data);});$("#uploadFileId").show(400);$("#getpic").html("换一个表情？");'>要模仿什么？</button>
 
-	<button id="uploadFileId"style="display:none" class="btn btn-default col-xs-10 col-xs-offset-1" onclick=" document.getElementById('pic2').click(); $('#cal').show();">上传自己的模仿照片，尽量传神哦</button>
+	<button id="uploadFileId"style="display:none" class="btn btn-default col-xs-10 col-xs-offset-1" onclick=" document.getElementById('pic2').click(); $('#cal').show();$('#localImag').show();">上传自己的模仿照片，尽量传神哦</button>
 
 	<div class="row">
 		<!-- 这里我随便也了个跳转，表单传了两个input：一个file一个text。-->
 		<form action="/result" role="form" method="Post" enctype="multipart/form-data" id="calc_score">
-			<div class="" id="localImag" style="text-align: center; background-color: #FFD306;">
-				<img id="preview" alt="" style="background-color: #FFD306; border: #FFD306" class="img-thumbnail col-md-6 col-md-offset-3"/>
+			<div class="" id="localImag" style="text-align: center; background-color: #FFD306; display:none">
+				<img id="preview" alt="" style="background-color: #FFD306; border: #FFD306" class="img-thumbnail col-md-6 col-md-offset-3 "/>
 			</div>
 			<div id="cal" class="row" style="text-align:center;display:none">
-				<button type="submit" style="margin: auto" class="btn-lg btn-danger" onclick='$("#calc_score").attr("action", "/result?dst_img="+$.cookie("dst_img"));return true;'>计算我的模仿指数(╯°Д°)╯</button>
+				<button type="submit" style="margin: auto" class="btn-lg btn-danger" onclick='$("#localImag").hide();$("#calc_score").attr("action", "/result?dst_img="+$.cookie("dst_img"));return true;'>计算我的模仿指数(╯°Д°)╯</button>
 			</div>
 
 			<input name="photo" type="file" class="btn btn-default" accept="image/*" style="visibility: hidden; margin: auto" id="pic2" onchange="javascript:setImagePreview(this,localImag,preview)" required="required">
