@@ -35,6 +35,13 @@ use_local = False
 if len(sys.argv) > 2 and sys.argv[2] == 'use_local':
 	use_local = True
 
+my_port = 3100
+if len(sys.argv) > 3:
+	try:
+		my_port = int(sys.argv[3])
+	except Exception, e:
+		my_port = 3100
+
 @app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
@@ -113,5 +120,5 @@ if __name__ == '__main__':
 	APP_KEY="10hyto051fgrtxib3uo5yie10s4da1jx500qjyk3qek24d0p"
 	MASTER_KEY="pye4tgaw8edmxlw7sct48xnb4r9h5lowdcufqokyug5cvy2q"
 	leancloud.init(APP_ID, master_key=MASTER_KEY)
-	port = int(os.environ.get("PORT", 3100))
+	port = int(os.environ.get("PORT", my_port))
 	app.run(host='0.0.0.0', port=port)
