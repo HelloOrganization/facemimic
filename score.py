@@ -58,13 +58,13 @@ def expression_score_sightcorp(tag, pic):
 	sum = 0.0
 	for tags in expressions:
 		sum += float(expressions[tags]['value'])
-	if tag == 0:		
+	if tag == 1:		
 		return float(100) * float((expressions['happiness']['value']+expressions['surprise']['value']) / sum)
-	elif tag == 1:
-		return float(100) * float((expressions['anger']['value']+expressions['disgust']['value']) / sum)
 	elif tag == 2:
-		return float(100) * float((expressions['sadness']['value']+expressions['fear']['value']+expressions['disgust']['value']) / sum)
+		return float(100) * float((expressions['anger']['value']+expressions['disgust']['value']) / sum)
 	elif tag == 3:
+		return float(100) * float((expressions['sadness']['value']+expressions['fear']['value']+expressions['disgust']['value']) / sum)
+	elif tag == 4:
 		return float(100) * float((expressions['surprise']['value']+expressions['fear']['value']) / sum)
 	else:
 		return 0
