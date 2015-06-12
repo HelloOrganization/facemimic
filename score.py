@@ -8,8 +8,9 @@ import math
 import random
 import time
 import pickle
-from PIL import Image
-	
+#from PIL import Image
+import commands
+
 bench_file = open('static/txt/bench.pkl', 'rb')
 bench_list = pickle.load(bench_file)
 # try:
@@ -57,13 +58,13 @@ def expression_score_sightcorp(tag, pic):
 	sum = 0.0
 	for tags in expressions:
 		sum += float(expressions[tags]['value'])
-	if tag == 0:		
+	if tag == 1:		
 		return float(100) * float((expressions['happiness']['value']+expressions['surprise']['value']) / sum)
-	elif tag == 1:
-		return float(100) * float((expressions['anger']['value']+expressions['disgust']['value']) / sum)
 	elif tag == 2:
-		return float(100) * float((expressions['sadness']['value']+expressions['fear']['value']+expressions['disgust']['value']) / sum)
+		return float(100) * float((expressions['anger']['value']+expressions['disgust']['value']) / sum)
 	elif tag == 3:
+		return float(100) * float((expressions['sadness']['value']+expressions['fear']['value']+expressions['disgust']['value']) / sum)
+	elif tag == 4:
 		return float(100) * float((expressions['surprise']['value']+expressions['fear']['value']) / sum)
 	else:
 		return 0
@@ -140,10 +141,11 @@ def getreview(score):
 def compress(user_pic, platform):
 	if platform == 'a':
 		return user_pic
-	user_img = Image.open(user_pic)
-	new_img = user_img.transpose(Image.ROTATE_270) 
-	new_user_pic = user_pic + ".min.jpg"
-	new_img.save(new_user_pic)
+	status, new_user_pic = commands.getstatusoutput("java -classpath . RotatePic "+ user_pic)
+	# user_img = Image.open(user_pic)
+	# new_img = user_img.transpose(Image.ROTATE_270) 
+	# new_user_pic = user_pic + ".min.jpg"
+	# new_img.save(new_user_pic)
 	# ori_w,ori_h = user_img.size
 	# if max(ori_h,ori_w) >= 1000:
 	# 	ratio = 1000.0/max(ori_h,ori_w)

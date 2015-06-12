@@ -99,6 +99,7 @@ def result():
 	print 'use_local', local_file_name
 	platform = request.cookies.get('platform')
 	new_local_file_name = compress(local_file_name, platform)
+	print 'new', new_local_file_name
 	new_local_file = open(new_local_file_name)
 	photo_file = leancloud.File(photo_uuid, new_local_file)
 	new_local_file.close()
