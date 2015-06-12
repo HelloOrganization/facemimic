@@ -47,7 +47,7 @@ def expression_score_sightcorp(tag, pic):
 	#print_result("sightcorp", json_resp)
 	if len(res)==2:
 		print 'sorry, error occured'
-		return -1 
+		return 0
 
 	if len(res['persons'])==0:
 		print 'no face detected'
@@ -96,7 +96,7 @@ def expression_similarity_sightcorp(benchmark_index, user_pic):
 
 	if len(res2)==2:
 		print 'sorry, error occured'
-		return -1
+		return 0
 
 	if len(res2['persons'])==0:
 		print 'no face detected'
@@ -112,7 +112,7 @@ def expression_similarity_sightcorp(benchmark_index, user_pic):
 #score1 = metric_similarity(PIC1, PIC2)
 #print score1
 def get_per(score):
-	return int(100*(float(score)/100)**2)
+	return int(100*math.sqrt(float(score)/100))
 
 def getreview(score):
 	if score >= 95 and score <= 100:
@@ -128,7 +128,7 @@ def getreview(score):
 	elif score >=1 and score <= 39:
 		return "呀！模仿还需继续努力哦~再来一次吧！或者分享到朋友圈让他人评点！节操什么的就不要太在意啦。"
 	else:
-		return "噗，好像没有检查到人脸啊……><"
+		return "咦？0分？不要惊慌，可能是我们没有在照片中检测到人脸，也可能是拍摄姿势不对，记住要拿起手机竖着拍摄哦！不如再来一次！"
 
 def compress(user_pic):
 	user_img = Image.open(user_pic)

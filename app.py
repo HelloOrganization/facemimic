@@ -89,7 +89,7 @@ def result():
 		resp.set_cookie('ajax', '0')
 		return resp
 	else:
-		resp = make_response(render_template("result.html", score='?', percent='?', review='...', preview1=photo_file.url))
+		resp = make_response(render_template("result.html", score='?', percent='?', review='正在计算中，请稍等^_^', preview1=photo_file.url))
 		resp.set_cookie('ajax', '1')
 		resp.set_cookie('url', photo_file.url)
 		resp.set_cookie("uuid", photo_uuid)
