@@ -74,7 +74,7 @@
 					<a href="#" class="thumbnail">
 						
 						<div id="localImag2" >  
-							<img id="preview2" alt="" class="img-thumbnail"  />  
+							<img id="preview2" alt="" class="img-thumbnail"  src="{{preview2}}"/>  
 						</div> 
 					</a>
 				</div>
@@ -104,14 +104,11 @@
    		var imgobj =  document.getElementById("preview1")
    		imgobj.src = $.cookie('url');//指定图片路径
    		console.log($.cookie('url'));*/
-   		$("#preview2").attr("src", $.cookie("dst_img"));
+   		//$("#preview2").attr("src", $.cookie("dst_img"));
 
    		if ($.cookie('ajax') == '1'){
    			console.log('use ajax');
-	   		var url = '/calc?dst_img=' + $.cookie("dst_img") + "&url=" +$.cookie("url");
-	   		if ($.cookie('uuid')){
-				url +=  "&uuid=" + $.cookie('uuid');
-			} 
+	   		var url = '/calc?uuid=' + $.cookie('uuid');
 			console.log(url);
 			$.get(url, function(data, status) {
 				console.log(data);
@@ -122,6 +119,8 @@
 				$('#review').text(review[parseInt(parsedData[2])]);
 				console.log('end');
 			});
+		} else {
+			$('#review').text(review[parseInt({{review}})]);
 		}
   		
    			//document.body.appendChild(imgobj);//在页面中添加元素
