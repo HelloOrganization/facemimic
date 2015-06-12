@@ -56,9 +56,9 @@
 <!--		
             function setImagePreview(docObj,localImagId,imgObjPreview)   
             {  
-				if ($.cookie("platform")=='a'){
+				//if ($.cookie("platform")=='a'){
 					window.alert("图片成功上传！"); 
-				}
+				//}
                 if(docObj.files && docObj.files[0])  
                 {  
 					//火狐下，直接设img属性  
@@ -93,8 +93,10 @@
                       }                            
                       imgObjPreview.style.display = 'none';  
                       document.selection.empty();  
-                }  
+                } 
+				
 				document.getElementById('cal').scrollIntoView();
+				location.hash="#cal";
                 return true;  
             }  
 			--> </script>
@@ -113,7 +115,7 @@
 				</div>
 				<div class="modal-body">
 					<p>想成为表情模仿达人吗？摆脱扑克脸，发现自己丰富多彩的表情吧！本应用会随机给出一个表情，您模仿的越像，“模仿指数”越高哦~</p>
-					<p>步骤一：点击最左的按钮，来看看自己想要模仿的表情是什么。</p>
+					<p>步骤一：点击蓝色的按钮，来看看自己想要模仿的表情是什么。</p>
 					<p>步骤二：感觉不是很对？那么换一个来模仿吧！</p>
 					<p>步骤三：记下这个表情的精髓！然后默默准备好表情，越像越传神越好~</p>
 					<p>步骤四：拍照或者上传你的模仿秀照片~来看看你的“模仿指数”是多少吧~</p>
@@ -163,7 +165,7 @@
 	</div>
 	<button id="getpic" type="button" class="btn btn-info col-xs-10 col-xs-offset-1 col-lg-6" onclick='$.get("/another", function(data){console.log(data); $("#preview2").attr("src", data); $.cookie("dst_img", data);});$("#uploadFileId").show(400);$("#getpic").html("换一个表情？");'>要模仿什么？</button>
 
-	<a id="uploadFileId"style="display:none"class="btn btn-success col-xs-10 col-xs-offset-1" onclick=" document.getElementById('pic2').click(); $('#cal').show();$('#localImag').show();">上传自己的模仿照片，尽量传神哦</a>
+	<a id="uploadFileId"style="display:none"class="btn btn-success col-xs-10 col-xs-offset-1" onclick=" document.getElementById('pic2').click();">上传自己的模仿照片，尽量传神哦</a>
 
 	<div class="row">
 		<!-- 这里我随便也了个跳转，表单传了两个input：一个file一个text。-->
@@ -175,7 +177,7 @@
 				<button type="submit" style="margin: auto" class="btn-lg btn-danger" onclick='$("#localImag").hide();$("#calc_score").attr("action", "/result?dst_img="+$.cookie("dst_img"));return true;'>计算我的模仿指数(╯°Д°)╯</button>
 			</div>
 
-			<input name="photo" type="file" class="btn btn-default" accept="image/*" style="visibility: hidden;" id="pic2" onchange="javascript:setImagePreview(this,localImag,preview)" required="required">
+			<input name="photo" type="file" class="btn btn-default" accept="image/*" style="visibility: hidden;" id="pic2" onchange="javascript:setImagePreview(this,localImag,preview); $('#cal').show();$('#localImag').show();" required="required">
 		</form>
 	</div>
 </div>
@@ -183,13 +185,13 @@
 <br/>
 <br/>
 <br/>
-<!--
-<nav class="navbar navbar-fixed-bottom navbar-inverse">
+
+<!--nav name="bottom" id="bottom" class="navbar navbar-fixed-bottom navbar-inverse"style=" display:none">
 	<span class="navbar-text"style="font-family:Palatino Linotype">
 		Designed by Qingying Chen, Yiqun Ouyang, Minxing Liu, Yangqingwei Shi, Peking University.
 	</span>
-</nav>
--->
+</nav-->
+
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
