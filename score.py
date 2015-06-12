@@ -115,36 +115,46 @@ def get_per(score):
 	return int(100*(float(score)/100)**2)
 
 def getreview(score):
-	if score >= 95 and score <= 100:
+	if score >= 95 and score <= 100: 
+		return 0
 		return "你对面部动作、眼神、情绪的把握已经臻于化境！天哪，我还以为你是这些表情的原型，而不是它们的模仿！"
 	elif score >= 85 and score <= 94:
+		return 1
 		return "非……非常好，就是这种感觉！令人潸然泪下的感人模仿！请务必分享到朋友圈让大家看看……"
 	elif score >= 75 and score <= 84:
+		return 2
 		return "出人意料的良好表现！这次模仿令我印象深刻，我会记住你的。"
 	elif score >= 60 and score <= 74:
+		return 3
 		return "哎唷不错~我觉得已经很像了！不过如果你觉得你的技艺不止于此的话，那么请继续前进吧！"
 	elif score >=40 and score <= 59:
+		return 4
 		return "想象一下图中的人物是怀着何等心情做出这样的表情的，他又遇到了什么样的夸张事情，然后再假象自己置身其中，体会同样的情绪，最后大胆地表现出来！你一定可以的！再来一次吧~"
 	elif score >=1 and score <= 39:
+		return 5
 		return "呀！模仿还需继续努力哦~再来一次吧！或者分享到朋友圈让他人评点！节操什么的就不要太在意啦。"
 	else:
+		return 6
 		return "噗，好像没有检查到人脸啊……><"
 
 def compress(user_pic):
 	user_img = Image.open(user_pic)
-	ori_w,ori_h = user_img.size
-	if max(ori_h,ori_w) >= 1000:
-		ratio = 1000.0/max(ori_h,ori_w)
-		new_img = user_img.resize((int(ori_w*ratio), int(ori_h*ratio)))
-		new_img.rotate(90)
-		new_user_pic = user_pic + ".min.jpg"
-		new_img.save(new_user_pic)
-		return new_user_pic
-	return user_pic
+	new_img = user_img.transpose(Image.ROTATE_270) 
+	new_user_pic = user_pic + ".min.jpg"
+	new_img.save(new_user_pic)
+	# ori_w,ori_h = user_img.size
+	# if max(ori_h,ori_w) >= 1000:
+	# 	ratio = 1000.0/max(ori_h,ori_w)
+	# 	new_img = user_img.resize((int(ori_w*ratio), int(ori_h*ratio)))
+	# 	new_img.rotate(90)
+	# 	new_user_pic = user_pic + ".min.jpg"
+	# 	new_img.save(new_user_pic)
+	return new_user_pic
+	#return user_pic
 
 def calc_score(user_pic, dst_pic):
 	#print user_pic, dst_pic
-	#user_pic = compress(user_pic)
+	user_pic = compress(user_pic)
 	res = dst_pic.split('/')
 	dst_name = res[-1]
 	if dst_name[0] == 'e':

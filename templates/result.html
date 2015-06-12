@@ -25,13 +25,14 @@
         <div class="container">
 			
 			<div class="navbar-header">
+				<!--
 			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
 				<span class="sr-only">Toggle navigation</span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			  </button>
-
+				-->
 			  <a class="navbar-brand" href="#" ><strong>表情模仿秀</strong></a>
 			</div>
 			<!--
@@ -94,10 +95,11 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 	<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="static/js/jquery.cookie.js"></script>
 
 	<script type="text/javascript">
+
+		var review=["你对面部动作、眼神、情绪的把握已经臻于化境！天哪，我还以为你是这些表情的原型，而不是它们的模仿！","非……非常好，就是这种感觉！令人潸然泪下的感人模仿！请务必分享到朋友圈让大家看看……","出人意料的良好表现！这次模仿令我印象深刻，我会记住你的。", "哎唷不错~我觉得已经很像了！不过如果你觉得你的技艺不止于此的话，那么请继续前进吧！", "想象一下图中的人物是怀着何等心情做出这样的表情的，他又遇到了什么样的夸张事情，然后再假象自己置身其中，体会同样的情绪，最后大胆地表现出来！你一定可以的！再来一次吧~","呀！模仿还需继续努力哦~再来一次吧！或者分享到朋友圈让他人评点！节操什么的就不要太在意啦。", "噗，好像没有检查到人脸啊……><"];
 		/*var srcStr = localStorage.getItem('test');//获取本地存储的元素
    		var imgobj =  document.getElementById("preview1")
    		imgobj.src = $.cookie('url');//指定图片路径
@@ -117,7 +119,7 @@
 				console.log(parsedData);
 				$('#score').text(parsedData[0]);
 				$('#percent').text(parsedData[1]);
-				$('#review').text(parsedData[2]);
+				$('#review').text(review[parseInt(parsedData[2])]);
 				console.log('end');
 			});
 		}
