@@ -4,10 +4,11 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 
 import os
+import time
 import random
 import uuid
 import leancloud
-
+import threading
 from datetime import datetime
 
 from flask import Flask, request
@@ -55,10 +56,26 @@ def another():
 		chosen = img_dir + fn
 	return chosen
 
+threads = {}
+scores = {}
+
+def calc_thread(user_url, dst_img, photo_uuid):
+	global scores
+	global use_local
+	if use_local:
+		user_img = img_upload_dir + photo_uuid + ".jpg"
+		print 'user_img thr:', user_img
+		score_arr = calc_score(user_img, dst_img)
+	else:
+		print 'user_url thr:', user_url
+		score_arr = calc_score(user_url, dst_img)
+	scores[photo_uuid] = str(score_arr)
+
 @app.route('/result', methods=['POST'])
 def result():
 	#print request.files
 	global use_local
+	global threads
 	photo = request.files['photo']
 	photo_uuid = str(uuid.uuid4())
 	print photo_uuid
@@ -75,9 +92,9 @@ def result():
 		dst.close()
 		print 'use_local', local_file_name
 	print 'after save'
+	dst_img = request.args.get('dst_img')
 	global not_ajax
 	if not_ajax:
-		dst_img = request.args.get('dst_img')
 		print 'not_ajax', dst_img, photo_file.url
 		if use_local:
 			score_arr = calc_score(local_file_name, dst_img)
@@ -89,31 +106,43 @@ def result():
 		resp.set_cookie('ajax', '0')
 		return resp
 	else:
+		t = threading.Thread(target=calc_thread, args=(photo_file.url, dst_img, photo_uuid))
+		t.start()
+		threads[photo_uuid] = t
 		resp = make_response(render_template("result.html", score='?', percent='?', review='...', preview1=photo_file.url))
 		resp.set_cookie('ajax', '1')
 		resp.set_cookie('url', photo_file.url)
 		resp.set_cookie("uuid", photo_uuid)
 		return resp
-
+# @app.share('/share')
+# def share():
+	
 @app.route('/calc')
 def calc():
-	global use_local
-	dst_img = request.args.get('dst_img')
-	print 'dst_img:', dst_img
-	if use_local:
-		photo_uuid = request.args.get('uuid')
-		user_img = img_upload_dir + photo_uuid + ".jpg"
-		print 'user_img:', user_img
-		score_arr = calc_score(user_img, dst_img)
-	else:
-		user_url = request.args.get('url')
-		print 'user_url:', user_url
-		score_arr = calc_score(user_url, dst_img)
-	return str(score_arr)
+	global threads
+	global scores
+	photo_uuid = request.args.get('uuid')
+	print time.ctime()
+	threads[photo_uuid].join()
+	print time.ctime()
+	del threads[photo_uuid]
+	score = scores[photo_uuid]
+	del scores[photo_uuid]
+	return score
+	# global use_local
+	# dst_img = request.args.get('dst_img')
+	# print 'dst_img:', dst_img
+	# if use_local:
+	# 	photo_uuid = request.args.get('uuid')
+	# 	user_img = img_upload_dir + photo_uuid + ".jpg"
+	# 	print 'user_img:', user_img
+	# 	score_arr = calc_score(user_img, dst_img)
+	# else:
+	# 	user_url = request.args.get('url')
+	# 	print 'user_url:', user_url
+	# 	score_arr = calc_score(user_url, dst_img)
+	# return str(score_arr)
 
-@app.route('/time')
-def time():
-    return str(datetime.now())
 
 if __name__ == '__main__':
 	APP_ID="wy1vhkf58knzywjpmny6r1pqbywmy3zxqo1qmj35mmaizd0z"
