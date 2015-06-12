@@ -141,7 +141,7 @@ def getreview(score):
 def compress(user_pic, platform):
 	if platform == 'a':
 		return user_pic
-	status, new_user_pic = commands.getstatusoutput("java RotatePic "+ user_pic)
+	status, new_user_pic = commands.getstatusoutput("java -classpath . RotatePic "+ user_pic)
 	# user_img = Image.open(user_pic)
 	# new_img = user_img.transpose(Image.ROTATE_270) 
 	# new_user_pic = user_pic + ".min.jpg"
