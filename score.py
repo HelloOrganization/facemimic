@@ -45,9 +45,9 @@ def expression_score_sightcorp(tag, pic):
 	json_resp = expression_sightcorp_file(pic)
 	res = json.loads( json_resp )
 	#print_result("sightcorp", json_resp)
-	if len(res2)==2:
+	if len(res)==2:
 		print 'sorry, error occured'
-		return 
+		return -1 
 
 	if len(res['persons'])==0:
 		print 'no face detected'
@@ -96,7 +96,7 @@ def expression_similarity_sightcorp(benchmark_index, user_pic):
 
 	if len(res2)==2:
 		print 'sorry, error occured'
-		return 
+		return -1
 
 	if len(res2['persons'])==0:
 		print 'no face detected'
