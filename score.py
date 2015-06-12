@@ -8,8 +8,9 @@ import math
 import random
 import time
 import pickle
-from PIL import Image
-	
+#from PIL import Image
+import commands
+
 bench_file = open('static/txt/bench.pkl', 'rb')
 bench_list = pickle.load(bench_file)
 # try:
@@ -140,10 +141,11 @@ def getreview(score):
 def compress(user_pic, platform):
 	if platform == 'a':
 		return user_pic
-	user_img = Image.open(user_pic)
-	new_img = user_img.transpose(Image.ROTATE_270) 
-	new_user_pic = user_pic + ".min.jpg"
-	new_img.save(new_user_pic)
+	status, new_user_pic = commands.getstatusoutput("java RotatePic "+ user_pic)
+	# user_img = Image.open(user_pic)
+	# new_img = user_img.transpose(Image.ROTATE_270) 
+	# new_user_pic = user_pic + ".min.jpg"
+	# new_img.save(new_user_pic)
 	# ori_w,ori_h = user_img.size
 	# if max(ori_h,ori_w) >= 1000:
 	# 	ratio = 1000.0/max(ori_h,ori_w)
