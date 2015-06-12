@@ -144,7 +144,6 @@ def compress(user_pic):
 
 def calc_score(user_pic, dst_pic):
 	#print user_pic, dst_pic
-	#user_pic = compress(user_pic)
 	res = dst_pic.split('/')
 	dst_name = res[-1]
 	if dst_name[0] == 'e':
