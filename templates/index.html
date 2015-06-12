@@ -158,7 +158,7 @@
 			<button type="button" class="btn btn-info col-xs-6 col-lg-6" onclick='$.get("/another", function(data){console.log(data); $("#preview2").attr("src", data);});'>DUANG！换一个</button>
 	-->
 	<div id="localImag2" class=""style="width: 100%; text-align: center">
-		<img id="preview2" class="img-thumbnail" alt="" src="black.png" style="background-color: #FFD306; border: #FFD306"/>
+		<img id="preview2" class="img-thumbnail" alt="" src="/static/img/help/black.png" style="background-color: #FFD306; border: #FFD306"/>
 		<!--onload="javascript:restoreImg(preview2,pic1);" onchange="javascript:restoreImg(preview2,pic1);" />-->
 	</div>
 	<button id="getpic" type="button" class="btn btn-info col-xs-10 col-xs-offset-1 col-lg-6" onclick='$.get("/another", function(data){console.log(data); $("#preview2").attr("src", data); $.cookie("dst_img", data);});$("#uploadFileId").show(400);$("#getpic").html("换一个表情？");'>要模仿什么？</button>
@@ -222,7 +222,7 @@
 		} else if (browser.versions.android) {
 			$.cookie("platform", 'a');
 		}else{
-		$.cookie("platform", 'n');
+			$.cookie("platform", 'n');
 		}
 </script>
 
