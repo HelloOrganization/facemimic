@@ -50,14 +50,14 @@ def expression_score_sightcorp(tag, content_StringIO):
 	json_resp = expression_sightcorp_file(content_StringIO)
 	res = json.loads( json_resp )
 	#print_result("sightcorp", json_resp)
+	global error_code
+	global error_desp
 	if len(res)==2:
-		global error_code, error_desp
 		error_code = res["error_code"]
 		error_desp = str(res["description"])
 		return 0
 
 	if len(res['persons'])==0:
-		global error_code, error_desp
 		error_code = 1500
 		error_desp = "no face detected, height: "+str(res['img_height'])+" width: "+str(res['img_width'])
 		return 0
@@ -103,13 +103,16 @@ def expression_similarity_sightcorp(benchmark_index, content_StringIO):
 	json_resp2 = expression_sightcorp_file(content_StringIO)
 	res2 = json.loads( json_resp2 )
 	
-	global error_code, error_desp
+	global error_code
+	global error_desp
 	if len(res2)==2:
-		print 'sorry, error occured'
+		error_desp = 'sorry, error occured'
+		error_code = 12345
 		return 0
 
 	if len(res2['persons'])==0:
-		print 'no face detected'
+		error_desp = 'no face detected'
+		error_code = 54321
 		return 0
 	
 	expressions1 = res1['persons'][0]['expressions']
