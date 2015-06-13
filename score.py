@@ -11,7 +11,7 @@ import pickle
 from PIL import Image
 from cStringIO import StringIO
 import commands
-
+import os.path as os_path
 
 bench_file = open('static/txt/bench.pkl', 'rb')
 bench_list = pickle.load(bench_file)
@@ -181,6 +181,8 @@ def compress(user_pic, platform):
 	#return user_pic
 
 def calc_score(user_content_StringIO, dst_pic):
+	if not os_path.exists(dst_pic):
+		return [0, 0, 6, 998, 'invalid dst_img']
 	global error_code, error_desp
 	error_code = 0
 	error_desp = ""

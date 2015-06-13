@@ -93,6 +93,8 @@ def result():
 	print '0',time.ctime()
 	platform = request.cookies.get('platform')
 	photo = request.files['photo']
+	if not photo:
+		return "photo not Found"
 	photo_uuid = str(uuid.uuid4())
 	dst_img = request.args.get('dst_img')
 	content = photo.stream.read()
@@ -131,6 +133,8 @@ def share():
 	global LeanScore
 	#print '5',time.ctime()
 	leanId = request.args.get('id')
+	if not leanId:
+		return "Not Found"
 	query = LeanQuery(LeanScore)
 	try:
 		score = query.get(leanId)
@@ -183,6 +187,8 @@ def calc():
 	global threads
 	global scores
 	print 'threads calc', threads
+	if photo_uuid not in threads:
+		return str([0, 0, 6, 12345, "invalid uuid"])
 	threads[photo_uuid].join()
 	del threads[photo_uuid]
 	print photo_uuid
