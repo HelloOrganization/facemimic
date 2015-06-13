@@ -94,7 +94,6 @@ def calc_thread(dst_img, photo_uuid, user_url, lean_score, platform):
 
 @app.route('/result', methods=['POST'])
 def result():
-	#print request.files
 	global use_local
 	#print '0',time.ctime()
 	platform = request.cookies.get('platform')
