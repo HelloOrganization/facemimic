@@ -43,7 +43,7 @@ def expression_sightcorp_file(pic):
 	
 def expression_score_sightcorp(tag, pic):
 	#print pic
-	json_resp = expression_sightcorp_file(pic)
+	json_resp = expression_sightcorp_url(pic)
 	res = json.loads( json_resp )
 	#print_result("sightcorp", json_resp)
 	if len(res)==2:
@@ -92,7 +92,7 @@ def expression_similarity_sightcorp(benchmark_index, user_pic):
 	#print "len",len(bench_list)
 	json_resp1 = bench_list[benchmark_index-1]
 	res1 = json.loads( json_resp1 )
-	json_resp2 = expression_sightcorp_file(user_pic)
+	json_resp2 = expression_sightcorp_url(user_pic)
 	res2 = json.loads( json_resp2 )
 
 	if len(res2)==2:

@@ -62,7 +62,7 @@ def another():
 threads = {}
 scores = {}
 
-def calc_thread(dst_img, photo_uuid, lean_score, platform):
+def calc_thread(dst_img, photo_uuid, user_url, lean_score, platform):
 	global scores
 	global use_local
 	score_arr = [0, 0, 0]
@@ -73,6 +73,9 @@ def calc_thread(dst_img, photo_uuid, lean_score, platform):
 			user_img = img_upload_dir + photo_uuid + ".jpg"
 		print 'user_img thr:', user_img
 		score_arr = calc_score(user_img, dst_img)
+	else:
+		print 'use lean'
+		score_arr = calc_score(user_url, dst_img)
 	lean_score.set('score', score_arr[0])
 	lean_score.set('percent', score_arr[1])
 	lean_score.set('review', score_arr[2])
@@ -89,21 +92,17 @@ def result():
 	photo = request.files['photo']
 	photo_uuid = str(uuid.uuid4())
 	dst_img = request.args.get('dst_img')
-	print photo_uuid
-	#print len(content)
-	print use_local
-	local_file_name = img_upload_dir + photo_uuid + ".jpg"
-	photo.save(local_file_name)
-	print '1',time.ctime()
-	print 'use_local', local_file_name
-	platform = request.cookies.get('platform')
-	new_local_file_name = compress(local_file_name, platform)
-	print '2',time.ctime()
-	print 'new', new_local_file_name
-	new_local_file = open(new_local_file_name)
-	photo_file = leancloud.File(photo_uuid + '.jpg', new_local_file, 'image/jpeg')
-	new_local_file.close()
+	content = photo.stream.read()
+	photo_file = leancloud.File(photo_uuid + ".jpg", buffer(content), 'image/jpeg')
 	photo_file.save()
+	platform = request.cookies.get('platform')
+	# new_local_file_name = compress(local_file_name, platform)
+	# print '2',time.ctime()
+	# print 'new', new_local_file_name
+	# new_local_file = open(new_local_file_name)
+	# photo_file = leancloud.File(photo_uuid + '.jpg', new_local_file, 'image/jpeg')
+	# new_local_file.close()
+	# photo_file.save()
 	print '3',time.ctime()
 	print 'save leancloud'
 	print 'after save'
@@ -158,7 +157,7 @@ def share():
 	else:
 		print '7',time.ctime()
 		platform = request.cookies.get('platform')
-		t = threading.Thread(target=calc_thread, args=(dst_img, photo_uuid, score, platform))
+		t = threading.Thread(target=calc_thread, args=(dst_img, photo_uuid, user_url, score, platform))
 		t.start()
 		threads[photo_uuid] = t
 		print '8',time.ctime()
