@@ -54,7 +54,7 @@ def expression_score_sightcorp(tag, content_StringIO):
 	global error_desp
 	if len(res)==2:
 		error_code = res["error_code"]
-		error_desp = str(res["description"])
+		error_desp = str(res["description"])#must be string
 		return 0
 
 	if len(res['persons'])==0:
@@ -106,13 +106,13 @@ def expression_similarity_sightcorp(benchmark_index, content_StringIO):
 	global error_code
 	global error_desp
 	if len(res2)==2:
-		error_desp = 'sorry, error occured'
-		error_code = 12345
+		error_code = res["error_code"]
+		error_desp = str(res["description"]) #must be string
 		return 0
 
 	if len(res2['persons'])==0:
-		error_desp = 'no face detected'
-		error_code = 54321
+		error_code = 1500
+		error_desp = "no face detected, height: "+str(res['img_height'])+" width: "+str(res['img_width'])
 		return 0
 	
 	expressions1 = res1['persons'][0]['expressions']
@@ -181,6 +181,9 @@ def compress(user_pic, platform):
 	#return user_pic
 
 def calc_score(user_content_StringIO, dst_pic):
+	global error_code, error_desp
+	error_code = 0
+	error_desp = ""
 	#print user_pic, dst_pic
 	res = dst_pic.split('/')
 	dst_name = res[-1]
