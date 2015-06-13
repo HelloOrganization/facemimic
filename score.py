@@ -15,6 +15,8 @@ import commands
 
 bench_file = open('static/txt/bench.pkl', 'rb')
 bench_list = pickle.load(bench_file)
+error_code = 0
+error_desp = ""
 # try:
 #      bench_str = bench_file.read()
 # finally:
@@ -49,11 +51,15 @@ def expression_score_sightcorp(tag, pic):
 	res = json.loads( json_resp )
 	#print_result("sightcorp", json_resp)
 	if len(res)==2:
-		print 'sorry, error occured'
+		global error_code, error_desp
+		error_code = res["error_code"]
+		error_desp = res["description"]
 		return 0
 
 	if len(res['persons'])==0:
-		print 'no face detected'
+		global error_code, error_desp
+		error_code = 1500
+		error_desp = "no face detected, height: "+str(res['img_height'])+" width: "+str(res['img_width'])
 		return 0
 		
 	expressions = res['persons'][0]['expressions']
@@ -117,7 +123,7 @@ def expression_similarity_sightcorp(benchmark_index, user_pic):
 def get_per(score):
 	return int(100*math.sqrt(float(score)/100))
 
-def getreview(score):
+def get_review(score):
 	if score >= 95 and score <= 100: 
 		return 0
 		return "你对面部动作、眼神、情绪的把握已经臻于化境！天哪，我还以为你是这些表情的原型，而不是它们的模仿！"
@@ -169,6 +175,10 @@ def compress(user_pic, platform):
 	return new_user_pic
 	#return user_pic
 
+def get_err():
+	global error_code, error_desp
+	return (error_code, error_desp)
+
 def calc_score(user_pic, dst_pic):
 	#print user_pic, dst_pic
 	res = dst_pic.split('/')
@@ -180,7 +190,7 @@ def calc_score(user_pic, dst_pic):
 		benchmark_index = (dst_name.split('.'))[0]
 		#print benchmark_index
 		score = expression_similarity_sightcorp(int(benchmark_index), user_pic)
-	return [int(score), get_per(score), getreview(score)]
+	return [int(score), get_per(score), get_review(score), get_err()]
 #print expression_emovu(0, PIC1)
 
 # print expression_similarity_sightcorp(1, "static/img/benchmark/1.jpg")
