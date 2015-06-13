@@ -178,10 +178,6 @@ def compress(user_pic, platform):
 	return new_user_pic
 	#return user_pic
 
-def get_err():
-	global error_code, error_desp
-	return (error_code, error_desp)
-
 def calc_score(user_pic, dst_pic):
 	global error_code, error_desp
 	error_code = 0
@@ -196,7 +192,8 @@ def calc_score(user_pic, dst_pic):
 		benchmark_index = (dst_name.split('.'))[0]
 		#print benchmark_index
 		score = expression_similarity_sightcorp(int(benchmark_index), user_pic)
-	return [int(score), get_per(score), get_review(score), get_err()]
+	global error_code, error_desp
+	return [int(score), get_per(score), get_review(score), error_code, error_desp]
 #print expression_emovu(0, PIC1)
 
 # print expression_similarity_sightcorp(1, "static/img/benchmark/1.jpg")
