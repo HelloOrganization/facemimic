@@ -85,6 +85,7 @@ def result():
 	#print request.files
 	global use_local
 	global threads
+	print '1',time.ctime()
 	photo = request.files['photo']
 	photo_uuid = str(uuid.uuid4())
 	dst_img = request.args.get('dst_img')
@@ -96,14 +97,17 @@ def result():
 	dst = open(local_file_name, 'wb')
 	dst.write(content)
 	dst.close()
+	print '1',time.ctime()
 	print 'use_local', local_file_name
 	platform = request.cookies.get('platform')
 	new_local_file_name = compress(local_file_name, platform)
+	print '2',time.ctime()
 	print 'new', new_local_file_name
 	new_local_file = open(new_local_file_name)
 	photo_file = leancloud.File(photo_uuid, new_local_file)
 	new_local_file.close()
 	photo_file.save()
+	print '3',time.ctime()
 	print 'save leancloud'
 	print 'after save'
 	global LeanScore
@@ -113,11 +117,13 @@ def result():
 	score.set('user_url', photo_file.url)
 	score.save()
 	resp = make_response(redirect("/share?id="+score.id))
+	print '4',time.ctime()
 	return resp
 	
 @app.route('/share')
 def share():
 	global LeanScore
+	print '5',time.ctime()
 	leanId = request.args.get('id')
 	query = LeanQuery(LeanScore)
 	try:
@@ -135,6 +141,7 @@ def share():
 		resp.set_cookie('ajax', '0')
 		return resp
 	# else:
+	print '6',time.ctime()
 	global not_ajax
 	photo_uuid = score.get('uuid')
 	if not_ajax:
@@ -152,13 +159,16 @@ def share():
 		resp.set_cookie('ajax', '0')
 		return resp
 	else:
+		print '7',time.ctime()
 		platform = request.cookies.get('platform')
 		t = threading.Thread(target=calc_thread, args=(dst_img, photo_uuid, score, platform))
 		t.start()
 		threads[photo_uuid] = t
+		print '8',time.ctime()
 		resp = make_response(render_template("result.html", score='?', percent='?', review='7', preview1=user_url, preview2=dst_img, btnInfo='再再……再来一次！‘(*>﹏<*)′'))
 		resp.set_cookie('ajax', '1')
 		resp.set_cookie("uuid", photo_uuid)
+		print '9',time.ctime()
 		return resp
 	return 'ok'
 @app.route('/calc')
@@ -168,9 +178,9 @@ def calc():
 	photo_uuid = request.args.get('uuid')
 	if not photo_uuid:
 		return "Not Found"
-	print time.ctime()
+	print '10',time.ctime()
 	threads[photo_uuid].join()
-	print time.ctime()
+	print '11',time.ctime()
 	del threads[photo_uuid]
 	score = scores[photo_uuid]
 	del scores[photo_uuid]
