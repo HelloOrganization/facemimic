@@ -175,7 +175,7 @@ def compress(user_pic, platform):
 	return new_user_pic
 	#return user_pic
 
-def get_err:
+def get_err():
 	global error_code, error_desp
 	return (error_code, error_desp)
 
