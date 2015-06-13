@@ -33,9 +33,9 @@ not_ajax = False
 if len(sys.argv) > 1 and sys.argv[1] == 'not_ajax':
 	not_ajax = True
 
-use_local = True # always true
-# if len(sys.argv) > 2 and sys.argv[2] == 'use_local':
-# 	use_local = True
+use_local = False # always true
+if len(sys.argv) > 2 and sys.argv[2] == 'use_local':
+	use_local = True
 
 my_port = 3100
 if len(sys.argv) > 3:
@@ -85,18 +85,15 @@ def result():
 	#print request.files
 	global use_local
 	global threads
-	print '1',time.ctime()
+	print '0',time.ctime()
 	photo = request.files['photo']
 	photo_uuid = str(uuid.uuid4())
 	dst_img = request.args.get('dst_img')
 	print photo_uuid
-	content = photo.stream.read()
 	#print len(content)
 	print use_local
 	local_file_name = img_upload_dir + photo_uuid + ".jpg"
-	dst = open(local_file_name, 'wb')
-	dst.write(content)
-	dst.close()
+	photo.save(local_file_name)
 	print '1',time.ctime()
 	print 'use_local', local_file_name
 	platform = request.cookies.get('platform')
@@ -104,7 +101,7 @@ def result():
 	print '2',time.ctime()
 	print 'new', new_local_file_name
 	new_local_file = open(new_local_file_name)
-	photo_file = leancloud.File(photo_uuid, new_local_file)
+	photo_file = leancloud.File(photo_uuid + '.jpg', new_local_file, 'image/jpeg')
 	new_local_file.close()
 	photo_file.save()
 	print '3',time.ctime()
