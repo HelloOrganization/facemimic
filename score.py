@@ -26,7 +26,7 @@ def expression_sightcorp_url(pic):
 						 'max_persons': 1,		
 						 'url': pic } 
 			   )
-	print json_resp.text
+	#print json_resp.text
 	return json_resp.text
 
 def expression_sightcorp_file(pic):
@@ -37,7 +37,7 @@ def expression_sightcorp_file(pic):
 						 'max_persons': 1 },
               files  = { 'img'       : ( 'filename', open( pic, 'rb' ) ) }
 			   )
-	print json_resp.text
+	#print json_resp.text
 	return json_resp.text
 
 	
