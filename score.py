@@ -104,11 +104,14 @@ def expression_similarity_sightcorp(benchmark_index, user_pic):
 	res2 = json.loads( json_resp2 )
 
 	if len(res2)==2:
-		print 'sorry, error occured'
+		global error_code, error_desp
+		error_code = res["error_code"]
+		error_desp = res["description"]
 		return 0
 
 	if len(res2['persons'])==0:
-		print 'no face detected'
+		error_code = 1500
+		error_desp = "no face detected, height: "+str(res['img_height'])+" width: "+str(res['img_width'])
 		return 0
 	
 	expressions1 = res1['persons'][0]['expressions']
@@ -180,6 +183,9 @@ def get_err():
 	return (error_code, error_desp)
 
 def calc_score(user_pic, dst_pic):
+	global error_code, error_desp
+	error_code = 0
+	error_desp = ""
 	#print user_pic, dst_pic
 	res = dst_pic.split('/')
 	dst_name = res[-1]
