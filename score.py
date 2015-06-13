@@ -8,8 +8,10 @@ import math
 import random
 import time
 import pickle
-#from PIL import Image
+from PIL import Image
+from cStringIO import StringIO
 import commands
+
 
 bench_file = open('static/txt/bench.pkl', 'rb')
 bench_list = pickle.load(bench_file)
@@ -137,6 +139,17 @@ def getreview(score):
 	else:
 		return 6
 		return "咦？0分？不要惊慌，可能是我们没有在照片中检测到人脸，也可能是拍摄姿势不对，记住要拿起手机竖着拍摄哦！不如再来一次！"
+
+def transpose(buffer_content, platform):
+	print buffer_content[0:10]
+	if platform != 'i':
+		return buffer_content
+	im = Image.open(StringIO(buffer_content))
+	new_im = im.transpose(Image.ROTATE_270)
+	fake_file = StringIO()
+	new_im.save(fake_file, 'jpeg')
+	return buffer(fake_file.getvalue())
+
 
 def compress(user_pic, platform):
 	if platform == 'a':

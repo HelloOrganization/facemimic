@@ -15,7 +15,7 @@ from datetime import datetime
 from flask import Flask, request
 from flask import render_template, send_file, make_response, redirect
 from views.todos import todos_view
-from score import calc_score, compress
+from score import calc_score, compress, transpose
 DEBUG = True
 static_dir = 'static/'
 img_dir = 'static/img/'
@@ -45,6 +45,17 @@ if len(sys.argv) > 3:
 		my_port = 3100
 
 LeanScore = leancloud.Object.extend('Score')
+LeanLog = leancloud.Object.extend('Log')
+
+@app.teardown_request
+def teardown_request(exception):
+	global LeanLog
+	lean_log = LeanLog()
+	lean_log.set('ip', request.remote_addr)
+	lean_log.set('url', request.url)
+	lean_log.set('phone', request.cookies.get('platform'))
+	lean_log.set('exception', str(exception))
+	lean_log.save()
 
 @app.route('/', methods=['GET'])
 def index():
@@ -52,6 +63,7 @@ def index():
 
 @app.route('/another')
 def another():
+	print request
 	fn = random.choice(os.listdir(img_dir))
 	chosen = img_dir + fn
 	while os.path.isdir(chosen):
@@ -89,13 +101,16 @@ def result():
 	global use_local
 	global threads
 	print '0',time.ctime()
+	platform = request.cookies.get('platform')
 	photo = request.files['photo']
 	photo_uuid = str(uuid.uuid4())
 	dst_img = request.args.get('dst_img')
 	content = photo.stream.read()
-	photo_file = leancloud.File(photo_uuid + ".jpg", buffer(content), 'image/jpeg')
+	print '1',time.ctime()
+	buffer_content = transpose(buffer(content), platform)
+	print '2',time.ctime()
+	photo_file = leancloud.File(photo_uuid + ".jpg", buffer_content, 'image/jpeg')
 	photo_file.save()
-	platform = request.cookies.get('platform')
 	# new_local_file_name = compress(local_file_name, platform)
 	# print '2',time.ctime()
 	# print 'new', new_local_file_name
@@ -112,6 +127,9 @@ def result():
 	score.set('dst_img', dst_img)
 	score.set('user_url', photo_file.url)
 	score.save()
+	t = threading.Thread(target=calc_thread, args=(dst_img, photo_uuid, photo_file.url, score, platform))
+	t.start()
+	threads[photo_uuid] = t
 	resp = make_response(redirect("/share?id="+score.id))
 	print '4',time.ctime()
 	return resp
@@ -156,11 +174,11 @@ def share():
 		return resp
 	else:
 		print '7',time.ctime()
-		platform = request.cookies.get('platform')
-		t = threading.Thread(target=calc_thread, args=(dst_img, photo_uuid, user_url, score, platform))
-		t.start()
-		threads[photo_uuid] = t
-		print '8',time.ctime()
+		# platform = request.cookies.get('platform')
+		# t = threading.Thread(target=calc_thread, args=(dst_img, photo_uuid, user_url, score, platform))
+		# t.start()
+		# threads[photo_uuid] = t
+		#print '8',time.ctime()
 		resp = make_response(render_template("result.html", score='?', percent='?', review='7', preview1=user_url, preview2=dst_img, btnInfo='再再……再来一次！‘(*>﹏<*)′'))
 		resp.set_cookie('ajax', '1')
 		resp.set_cookie("uuid", photo_uuid)
