@@ -47,6 +47,9 @@ if len(sys.argv) > 3:
 LeanScore = leancloud.Object.extend('Score')
 LeanLog = leancloud.Object.extend('Log')
 
+threads = {}
+scores = {}
+
 @app.teardown_request
 def teardown_request(exception):
 	global LeanLog
@@ -71,20 +74,8 @@ def another():
 		chosen = img_dir + fn
 	return chosen
 
-
-def calc_thread(dst_img, photo_uuid, user_url, lean_score, platform):
-	global use_local
-	score_arr = [0, 0, 0]
-	if use_local:
-		if platform == 'i':
-			user_img = img_upload_dir + photo_uuid + ".jpg.min.jpg"
-		else:
-			user_img = img_upload_dir + photo_uuid + ".jpg"
-		#print 'user_img thr:', user_img
-		score_arr = calc_score(user_img, dst_img)
-	else:
-		print 'use lean'
-		score_arr = calc_score(user_url, dst_img)
+def calc_thread(dst_img, photo_uuid, content_StringIO, lean_score):
+	score_arr = calc_score(content_StringIO, dst_img)
 	lean_score.set('score', score_arr[0])
 	lean_score.set('percent', score_arr[1])
 	lean_score.set('review', score_arr[2])
@@ -92,7 +83,9 @@ def calc_thread(dst_img, photo_uuid, user_url, lean_score, platform):
 	lean_score.set('err_desp', score_arr[4])
 	lean_score.increment('page_view', 1)
 	lean_score.save()
-	return str(score_arr)
+	global scores
+	scores[photo_uuid] = str(score_arr)
+	print 'xxxxx', scores
 
 @app.route('/result', methods=['POST'])
 def result():
@@ -104,9 +97,9 @@ def result():
 	dst_img = request.args.get('dst_img')
 	content = photo.stream.read()
 	print '1',time.ctime()
-	buffer_content = transpose(buffer(content), platform)
+	content_StringIO = transpose(buffer(content), platform)
 	print '2',time.ctime()
-	photo_file = leancloud.File(photo_uuid + ".jpg", buffer_content, 'image/jpeg')
+	photo_file = leancloud.File(photo_uuid + ".jpg", content_StringIO, 'image/jpeg')
 	photo_file.save()
 	# new_local_file_name = compress(local_file_name, platform)
 	# print '2',time.ctime()
@@ -124,6 +117,11 @@ def result():
 	score.set('dst_img', dst_img)
 	score.set('user_url', photo_file.url)
 	score.save()
+	t = threading.Thread(target=calc_thread, args=(dst_img, photo_uuid, content_StringIO, score))
+	t.start()
+	global threads
+	threads[photo_uuid] = t
+	print 'threads res', threads
 	resp = make_response(redirect("/share?id="+score.id))
 	#print '4',time.ctime()
 	return resp
@@ -175,26 +173,38 @@ def share():
 		#print '8',time.ctime()
 		resp = make_response(render_template("result.html", score='?', percent='?', review='7', preview1=user_url, preview2=dst_img, btnInfo='再再……再来一次！‘(*>﹏<*)′'))
 		resp.set_cookie('ajax', '1')
-		resp.set_cookie("leanId", leanId)
+		resp.set_cookie("uuid", photo_uuid)
 		print '9',time.ctime()
 		return resp
 	return 'ok'
 @app.route('/calc')
 def calc():
-	leanId = request.args.get('leanId')
-	query = LeanQuery(LeanScore)
-	try:
-		score = query.get(leanId)
-	except Exception, e:
-		return "Not Found"
-	print '10',time.ctime()
-	platform = request.cookies.get("platform")
-	dst_img = score.get("dst_img")
-	photo_uuid = score.get("uuid")
-	user_url = score.get("user_url")
-	score_str = calc_thread(dst_img, photo_uuid, user_url, score, platform)
-	print '11',time.ctime()
-	return score_str
+	photo_uuid = request.args.get('uuid')
+	global threads
+	global scores
+	print 'threads calc', threads
+	threads[photo_uuid].join()
+	del threads[photo_uuid]
+	print photo_uuid
+	print scores
+	score_arr = scores[photo_uuid]
+	del scores[photo_uuid]
+	print scores
+	return score_arr
+	# leanId = request.args.get('leanId')
+	# query = LeanQuery(LeanScore)
+	# try:
+	# 	score = query.get(leanId)
+	# except Exception, e:
+	# 	return "Not Found"
+	# print '10',time.ctime()
+	# platform = request.cookies.get("platform")
+	# dst_img = score.get("dst_img")
+	# photo_uuid = score.get("uuid")
+	# user_url = score.get("user_url")
+	# score_str = calc_thread(dst_img, photo_uuid, user_url, score, platform)
+	# print '11',time.ctime()
+	# return score_str
 	
 if __name__ == '__main__':
 	APP_ID="wy1vhkf58knzywjpmny6r1pqbywmy3zxqo1qmj35mmaizd0z"

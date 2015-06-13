@@ -33,27 +33,27 @@ def expression_sightcorp_url(pic):
 	print json_resp.text
 	return json_resp.text
 
-def expression_sightcorp_file(pic):
+def expression_sightcorp_file(content_StringIO):
 	json_resp = requests.post( 'http://api.sightcorp.com/api/detect/',
               data   = { 'app_key'   : '4abab32a3d064bdb85810374b6c01d5f',
                          'client_id' : 'a54ed59cac2f4d169d1e6f6f555003df',
 						 'attribute' : 'expressions',
 						 'max_persons': 1 },
-              files  = { 'img'       : ( 'filename', open( pic, 'rb' ) ) }
+              files  = { 'img'       : ( 'filename', content_StringIO ) }
 			   )
 	print json_resp.text
 	return json_resp.text
 
 	
-def expression_score_sightcorp(tag, pic):
+def expression_score_sightcorp(tag, content_StringIO):
 	#print pic
-	json_resp = expression_sightcorp_url(pic)
+	json_resp = expression_sightcorp_file(content_StringIO)
 	res = json.loads( json_resp )
 	#print_result("sightcorp", json_resp)
 	if len(res)==2:
 		global error_code, error_desp
 		error_code = res["error_code"]
-		error_desp = res["description"]
+		error_desp = str(res["description"])
 		return 0
 
 	if len(res['persons'])==0:
@@ -95,14 +95,15 @@ def get_dis(exp1, exp2):
 	dis = math.sqrt(dis)
 	return dis
 	
-def expression_similarity_sightcorp(benchmark_index, user_pic):	
+def expression_similarity_sightcorp(benchmark_index, content_StringIO):	
 	global bench_list
 	#print "len",len(bench_list)
 	json_resp1 = bench_list[benchmark_index-1]
 	res1 = json.loads( json_resp1 )
-	json_resp2 = expression_sightcorp_url(user_pic)
+	json_resp2 = expression_sightcorp_file(content_StringIO)
 	res2 = json.loads( json_resp2 )
-
+	
+	global error_code, error_desp
 	if len(res2)==2:
 		print 'sorry, error occured'
 		return 0
@@ -154,7 +155,8 @@ def transpose(buffer_content, platform):
 	new_im = im.transpose(Image.ROTATE_270)
 	fake_file = StringIO()
 	new_im.save(fake_file, 'jpeg')
-	return buffer(fake_file.getvalue())
+	fake_file.seek(0)
+	return fake_file
 
 
 def compress(user_pic, platform):
@@ -175,17 +177,17 @@ def compress(user_pic, platform):
 	return new_user_pic
 	#return user_pic
 
-def calc_score(user_pic, dst_pic):
+def calc_score(user_content_StringIO, dst_pic):
 	#print user_pic, dst_pic
 	res = dst_pic.split('/')
 	dst_name = res[-1]
 	if dst_name[0] == 'e':
 		tag = dst_name[2]
-		score = expression_score_sightcorp(int(tag), user_pic)
+		score = expression_score_sightcorp(int(tag), user_content_StringIO)
 	else:
 		benchmark_index = (dst_name.split('.'))[0]
 		#print benchmark_index
-		score = expression_similarity_sightcorp(int(benchmark_index), user_pic)
+		score = expression_similarity_sightcorp(int(benchmark_index), user_content_StringIO)
 	global error_code, error_desp
 	return [int(score), get_per(score), get_review(score), error_code, error_desp]
 #print expression_emovu(0, PIC1)
