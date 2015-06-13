@@ -99,7 +99,6 @@
    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 	<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="static/js/jquery.cookie.js"></script>
-	<script type="text/javascript" src="static/js/facepp-sdk.min.js"></script>
 	<script type="text/javascript">
 
 		var review=["你对面部动作、眼神、情绪的把握已经臻于化境！天哪，我还以为你是这些表情的原型，而不是它们的模仿！","非……非常好，就是这种感觉！令人潸然泪下的感人模仿！请务必分享到朋友圈让大家看看……","出人意料的良好表现！这次模仿令我印象深刻，我会记住你的。", "哎唷不错~我觉得已经很像了！不过如果你觉得你的技艺不止于此的话，那么请继续前进吧！", "想象一下图中的人物是怀着何等心情做出这样的表情的，他又遇到了什么样的夸张事情，然后再假象自己置身其中，体会同样的情绪，最后大胆地表现出来！你一定可以的！再来一次吧~","呀！模仿还需继续努力哦~再来一次吧！或者分享到朋友圈让他人评点！节操什么的就不要太在意啦。", "咦？0分？不要惊慌，可能是我们没有在照片中检测到人脸，也可能是拍摄姿势不对，记住要拿起手机竖着拍摄哦！不如再来一次！"];
@@ -111,28 +110,10 @@
    		//$("#preview2").attr("src", $.cookie("dst_img"));
 
    		if ($.cookie('ajax') == '1'){
-   			var facepp_res = -1;
-			var api = new FacePP('990cf5b3dead0a169422ab869d575319',
-				'E5lCgmKRHYjj9rtVecjngoTI4ArbK9w7', {
-				apiURL: 'http://apicn.faceplusplus.com/v2'
-			}); 
-			api.request('detection/detect', {
-				url:'{{preview1}}'
-			}, function(err, result) {
-    			if (err) {
-        			return;
-    			}
-    			facepp_res = result['face'].length;
-    			console.log('facepp_res: ' + facepp_res);
-    		});
-   			console.log('use ajax');
 	   		var url = '/calc?uuid=' + $.cookie('uuid');
 			console.log(url);
 			$.get(url, function(data, status) {
 				console.log(data);
-				while (facepp_res < 0){
-					$('#score').delay(5000);
-				}
 				var parsedData = JSON.parse(data.replace(/'/g, '"'));
 				console.log(parsedData);
 				$('#score').text(parsedData[0]);
