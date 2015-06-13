@@ -141,7 +141,7 @@ def getreview(score):
 		return "咦？0分？不要惊慌，可能是我们没有在照片中检测到人脸，也可能是拍摄姿势不对，记住要拿起手机竖着拍摄哦！不如再来一次！"
 
 def transpose(buffer_content, platform):
-	print buffer_content[0:10]
+	#print buffer_content[0:10]
 	if platform != 'i':
 		return buffer_content
 	im = Image.open(StringIO(buffer_content))
@@ -183,7 +183,7 @@ def calc_score(user_pic, dst_pic):
 	return [int(score), get_per(score), getreview(score)]
 #print expression_emovu(0, PIC1)
 
-# print expression_similarity_sightcorp(1, "static/img/benchmark/1.jpg")
+##print expression_similarity_sightcorp(1, "static/img/benchmark/1.jpg")
 # bench = []
 # path = "static/img/benchmark/"
 # for i in range(1, 24):
