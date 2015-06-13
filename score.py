@@ -106,13 +106,13 @@ def expression_similarity_sightcorp(benchmark_index, content_StringIO):
 	global error_code
 	global error_desp
 	if len(res2)==2:
-		error_code = res["error_code"]
-		error_desp = str(res["description"]) #must be string
+		error_code = res2["error_code"]
+		error_desp = str(res2["description"]) #must be string
 		return 0
 
 	if len(res2['persons'])==0:
 		error_code = 1500
-		error_desp = "no face detected, height: "+str(res['img_height'])+" width: "+str(res['img_width'])
+		error_desp = "no face detected, height: "+str(res2['img_height'])+" width: "+str(res2['img_width'])
 		return 0
 	
 	expressions1 = res1['persons'][0]['expressions']
@@ -151,11 +151,11 @@ def get_review(score):
 		return "咦？0分？不要惊慌，可能是我们没有在照片中检测到人脸，也可能是拍摄姿势不对，记住要拿起手机竖着拍摄哦！不如再来一次！"
 
 def transpose(buffer_content, platform):
-	print buffer_content[0:10]
-	if platform != 'i':
-		return buffer_content
 	im = Image.open(StringIO(buffer_content))
-	new_im = im.transpose(Image.ROTATE_270)
+	if platform == 'i':
+		new_im = im.transpose(Image.ROTATE_270)
+	else:
+		new_im = im
 	fake_file = StringIO()
 	new_im.save(fake_file, 'jpeg')
 	fake_file.seek(0)
@@ -192,11 +192,13 @@ def calc_score(user_content_StringIO, dst_pic):
 	if dst_name[0] == 'e':
 		tag = dst_name[2]
 		score = expression_score_sightcorp(int(tag), user_content_StringIO)
+		print 'emoji', score
 	else:
 		benchmark_index = (dst_name.split('.'))[0]
 		#print benchmark_index
 		score = expression_similarity_sightcorp(int(benchmark_index), user_content_StringIO)
-	global error_code, error_desp
+		print 'baoman', score
+
 	return [int(score), get_per(score), get_review(score), error_code, error_desp]
 #print expression_emovu(0, PIC1)
 

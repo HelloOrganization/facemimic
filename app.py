@@ -188,14 +188,18 @@ def calc():
 	global scores
 	print 'threads calc', threads
 	if photo_uuid not in threads:
-		return str([0, 0, 6, 12345, "invalid uuid"])
+		print 'invalid uuid in threads'
+		return str([0, 0, 6, 12345, "invalid uuid threads"])
 	threads[photo_uuid].join()
 	del threads[photo_uuid]
 	print photo_uuid
-	print scores
+	print 'yy', scores
+	if photo_uuid not in scores:
+		print 'invalid uuid in scores'
+		return str([0, 0, 6, 12345, "invalid uuid scores"])
 	score_arr = scores[photo_uuid]
 	del scores[photo_uuid]
-	print scores
+	print 'zzz', scores
 	return score_arr
 	# leanId = request.args.get('leanId')
 	# query = LeanQuery(LeanScore)
