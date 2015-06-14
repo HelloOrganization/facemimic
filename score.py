@@ -15,8 +15,8 @@ import os.path as os_path
 
 bench_file = open('static/txt/bench.pkl', 'rb')
 bench_list = pickle.load(bench_file)
-error_code = 0
-error_desp = ""
+
+
 # try:
 #      bench_str = bench_file.read()
 # finally:
@@ -50,8 +50,8 @@ def expression_score_sightcorp(tag, content_StringIO):
 	json_resp = expression_sightcorp_file(content_StringIO)
 	res = json.loads( json_resp )
 	#print_result("sightcorp", json_resp)
-	global error_code
-	global error_desp
+	error_code = 0
+	error_desp = ""
 	if len(res)==2:
 		error_code = res["error_code"]
 		error_desp = str(res["description"])#must be string
@@ -66,16 +66,18 @@ def expression_score_sightcorp(tag, content_StringIO):
 	sum = 0.0
 	for tags in expressions:
 		sum += float(expressions[tags]['value'])
+	score = 0
 	if tag == 1:		
-		return float(100) * float((expressions['happiness']['value']+expressions['surprise']['value']) / sum)
+		score = 100.0 * float((expressions['happiness']['value']+expressions['surprise']['value']) / sum)
 	elif tag == 2:
-		return float(100) * float((expressions['anger']['value']+expressions['disgust']['value']) / sum)
+		score = 100.0 * float((expressions['anger']['value']+expressions['disgust']['value']) / sum)
 	elif tag == 3:
-		return float(100) * float((expressions['sadness']['value']+expressions['fear']['value']+expressions['disgust']['value']) / sum)
+		score = 100.0 * float((expressions['sadness']['value']+expressions['fear']['value']+expressions['disgust']['value']) / sum)
 	elif tag == 4:
-		return float(100) * float((expressions['surprise']['value']+expressions['fear']['value']) / sum)
+		score = 100.0 * float((expressions['surprise']['value']+expressions['fear']['value']) / sum)
 	else:
-		return 0
+		score = 0
+	return (score, error_code, error_desp)
 
 def get_dis(exp1, exp2):
 	sum1 = 0.0
@@ -103,8 +105,8 @@ def expression_similarity_sightcorp(benchmark_index, content_StringIO):
 	json_resp2 = expression_sightcorp_file(content_StringIO)
 	res2 = json.loads( json_resp2 )
 	
-	global error_code
-	global error_desp
+	error_code = 0
+	error_desp = ""
 	if len(res2)==2:
 		error_code = res2["error_code"]
 		error_desp = str(res2["description"]) #must be string
@@ -120,7 +122,7 @@ def expression_similarity_sightcorp(benchmark_index, content_StringIO):
 	
 	#dis += (1-expressions2[tags]['value'])**2	
 	dis = get_dis(expressions1, expressions2)
-	return 100-int(dis)
+	return (100-int(dis), error_code, error_desp)
 
 #score1 = metric_similarity(PIC1, PIC2)
 #print score1
@@ -191,12 +193,12 @@ def calc_score(user_content_StringIO, dst_pic):
 	dst_name = res[-1]
 	if dst_name[0] == 'e':
 		tag = dst_name[2]
-		score = expression_score_sightcorp(int(tag), user_content_StringIO)
+		score, error_code, error_desp = expression_score_sightcorp(int(tag), user_content_StringIO)
 		print 'emoji', score
 	else:
 		benchmark_index = (dst_name.split('.'))[0]
 		#print benchmark_index
-		score = expression_similarity_sightcorp(int(benchmark_index), user_content_StringIO)
+		score, error_code, error_desp = expression_similarity_sightcorp(int(benchmark_index), user_content_StringIO)
 		print 'baoman', score
 
 	return [int(score), get_per(score), get_review(score), error_code, error_desp]
