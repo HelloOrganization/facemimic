@@ -57,7 +57,7 @@
 			<h3>超过全国<span id="percent" class="label label-primary">{{percent}}%</span>的人</h3>
 			<h3>专家点评：</h3>
 			<h4 id="review_wait" style='{{wait_style}}'>正在计算中<img src="static/img/help/load.gif" id="loading">请稍等</h4>
-			<h4 id="review_res" style='{{res_style}}'></h4>
+			<h4 id="review_res"></h4>
 			<div class="row">
 				<div class="form-group col-md-6">
 				
@@ -137,8 +137,6 @@
 				parsedData = JSON.parse(data.replace(/'/g, '"'));
 			});
 			function checkRes(){
-				console.log(new Date());
-
 				if (facepp_res < 0 || sight_res < 0){
 					//console.log(new Date());
 					setTimeout(checkRes, 1000);
