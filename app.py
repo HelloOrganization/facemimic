@@ -73,6 +73,21 @@ def another():
 		fn = random.choice(os.listdir(img_dir))
 		chosen = img_dir + fn
 	return chosen
+@app.route('/facepp', methods=['GET'])
+def facepp():
+	global LeanScore
+	leanId = request.args.get('leanId')
+	if not leanId:
+		return 'no leanId'
+	query = LeanQuery(LeanScore)
+	try:
+		score = query.get(leanId)
+	except Exception, e:
+		return "bad leanId"
+	facepp_res = request.args.get('res')
+	score.set('facepp_res', facepp_res)
+	score.save()
+	return 'ok'
 
 def calc_thread(dst_img, photo_uuid, content_StringIO, lean_score):
 	score_arr = calc_score(content_StringIO, dst_img)
@@ -144,9 +159,13 @@ def share():
 	dst_img = score.get('dst_img')
 	if score.get("page_view") > 0:
 		score.increment('page_view', 1)
-		score_arr = [score.get('score'), score.get('percent'), score.get('review')]
+		facepp_res = score.get('facepp_res')
 		score.save()
-		resp = make_response(render_template("result.html", score=score_arr[0], percent=score_arr[1], review=score_arr[2], preview1=user_url, preview2=dst_img,btnInfo='我也要模仿'))
+		if facepp_res == '0':
+			score_arr = [0, 0, 6]
+		else:
+			score_arr = [score.get('score'), score.get('percent'), score.get('review')]
+		resp = make_response(render_template("result.html", score=score_arr[0], percent=score_arr[1], review=score_arr[2], preview1=user_url, preview2=dst_img,btnInfo='我也要模仿', wait_style='display: none;'))
 		#resp.set_cookie('url', photo_file.url)
 		resp.set_cookie('ajax', '0')
 		return resp
@@ -164,7 +183,7 @@ def share():
 		#print 'ok', score_arr
 		score.increment('page_view', 1)
 		score.save()
-		resp = make_response(render_template("result.html", score=score_arr[0], percent=score_arr[1], review=score_arr[2], preview1=user_url, preview2=dst_img, btnInfo='再再……再来一次！‘(*>﹏<*)′'))
+		resp = make_response(render_template("result.html", score=score_arr[0], percent=score_arr[1], review=score_arr[2], preview1=user_url, preview2=dst_img, btnInfo='再再……再来一次！‘(*>﹏<*)′',wait_style='display: none;'))
 		#resp.set_cookie('url', photo_file.url)
 		resp.set_cookie('ajax', '0')
 		return resp
@@ -175,9 +194,10 @@ def share():
 		# t.start()
 		# threads[photo_uuid] = t
 		#print '8',time.ctime()
-		resp = make_response(render_template("result.html", score='?', percent='?', review='7', preview1=user_url, preview2=dst_img, btnInfo='再再……再来一次！‘(*>﹏<*)′'))
+		resp = make_response(render_template("result.html", score='?', percent='?', review='7', preview1=user_url, preview2=dst_img, btnInfo='再再……再来一次！‘(*>﹏<*)′', wait_style=''))
 		resp.set_cookie('ajax', '1')
 		resp.set_cookie("uuid", photo_uuid)
+		resp.set_cookie('leanId', leanId)
 		print '9',time.ctime()
 		return resp
 	return 'ok'
