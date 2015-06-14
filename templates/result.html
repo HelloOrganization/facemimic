@@ -133,13 +133,14 @@
 			console.log(url);
 			$.get(url, function(data, status) {
 				console.log('req res:' + data);
-				sight_res = 1;
 				parsedData = JSON.parse(data.replace(/'/g, '"'));
+				sight_res = 1;
 			});
 			function checkRes(){
 				if (facepp_res < 0 || sight_res < 0){
 					//console.log(new Date());
 					setTimeout(checkRes, 1000);
+					return;
 				}
 				if (facepp_res == 0){
 					parsedData = [0, 0, 6, 666, 'facepp:no face'];
