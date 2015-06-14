@@ -64,10 +64,12 @@
 					<div class="">
 						<h3>我的表情:</h3>				
 					</div>
+					
 					<a class="thumbnail">
 						
 						 <div id="localImag1" >  
-							<img id="preview1" alt="" class="img-thumbnail col-md-6 col-md-offset-3" src="{{preview1}}"/>  
+							<!--img id="preview1" alt="" class="img-thumbnail col-md-6 col-md-offset-3" src="{{preview1}}"/--> 
+<img id="preview1" alt="" class="img-thumbnail col-md-6 col-md-offset-3" src="http://b.hiphotos.baidu.com/baike/c0%3Dbaike220%2C5%2C5%2C220%2C73/sign=f9526156720e0cf3b4fa46a96b2f997a/342ac65c1038534392f24b659313b07eca8088b1.jpg"/>  							
 						</div> 
 					</a>
 				</div>
@@ -83,8 +85,11 @@
 					</a>
 				</div>
 			</div>
-			<div class="row" style="text-align: center">
-				<a href="/" style="margin: auto" class="btn btn-lg btn-danger">{{btnInfo}}</a>
+			<div class="row " style="text-align: center">
+				<div class="" style="margin: auto" >
+					<button href="/"  class="btn btn-lg btn-danger">{{btnInfo}}</button>
+					<button id="zan" class="btn  btn-lg btn-info" onclick='$("#zan").attr("disabled", "disabled");$("#zan").attr("disabled", "disabled");$("#zan").html("已有6个人点赞");'>点个赞！</button>				
+				</div>
 			</div>
 		</div>
 	<br/><br/><br/>
